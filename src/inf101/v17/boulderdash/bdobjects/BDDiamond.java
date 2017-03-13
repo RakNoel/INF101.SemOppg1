@@ -18,7 +18,7 @@ public class BDDiamond extends AbstractBDFallingObject {
 
 	@Override
 	public Color getColor() {
-		return Color.YELLOW;
+		return Color.AQUA;
 	}
 	
 

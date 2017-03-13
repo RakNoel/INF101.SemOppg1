@@ -155,6 +155,8 @@ public class BDMap {
 			return new BDSand(this);
 		} else if (c == ' ') {
 			return new BDEmpty(this);
+		} else if (c == 'd') {
+			return new BDDiamond(this);
 		}
 
 		System.err.println("Illegal character in map definition at (" + x + ", " + y + "): '" + c + "'");

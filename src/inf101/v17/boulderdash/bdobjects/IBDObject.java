@@ -2,6 +2,7 @@ package inf101.v17.boulderdash.bdobjects;
 
 import inf101.v17.boulderdash.Position;
 import inf101.v17.boulderdash.maps.BDMap;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
 
 /**
@@ -25,6 +26,8 @@ public interface IBDObject {
 	 * 
 	 * @return
 	 */
+	Image getSprite();
+
 	Paint getColor();
 
 	/**

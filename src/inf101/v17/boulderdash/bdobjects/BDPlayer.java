@@ -1,5 +1,6 @@
 package inf101.v17.boulderdash.bdobjects;
 
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
@@ -39,6 +40,9 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
 	public Color getColor() {
 		return Color.BLUE;
 	}
+
+	@Override
+	public Image getSprite() { return null; }
 
 	/**
 	 * @return true if the player is alive

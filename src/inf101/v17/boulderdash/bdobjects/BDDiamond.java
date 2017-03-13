@@ -1,5 +1,6 @@
 package inf101.v17.boulderdash.bdobjects;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import inf101.v17.boulderdash.maps.BDMap;
@@ -20,6 +21,9 @@ public class BDDiamond extends AbstractBDFallingObject {
 	public Color getColor() {
 		return Color.AQUA;
 	}
+
+	@Override
+	public Image getSprite() { return null; }
 	
 
 }

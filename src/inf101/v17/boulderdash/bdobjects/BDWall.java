@@ -1,5 +1,6 @@
 package inf101.v17.boulderdash.bdobjects;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import inf101.v17.boulderdash.maps.BDMap;
@@ -20,6 +21,9 @@ public class BDWall extends AbstractBDObject {
 	public Color getColor() {
 		return Color.BLACK;
 	}
+
+	@Override
+	public Image getSprite() { return null; }
 
 	@Override
 	public void step() {

@@ -1,5 +1,6 @@
 package inf101.v17.boulderdash.bdobjects;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,6 +94,9 @@ public class BDBug extends AbstractBDKillingObject implements IBDKillable {
 	public Color getColor() {
 		return Color.GREEN;
 	}
+
+	@Override
+	public Image getSprite() { return null; }
 
 	/**
 	 * Initialize the path of this bug, which is its initial position and then

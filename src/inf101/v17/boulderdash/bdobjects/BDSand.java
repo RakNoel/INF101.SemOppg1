@@ -1,8 +1,11 @@
 package inf101.v17.boulderdash.bdobjects;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import inf101.v17.boulderdash.maps.BDMap;
+
+import java.io.File;
 
 /**
  * An implementation of sand which simply disappears when the player walks over
@@ -19,7 +22,13 @@ public class BDSand extends AbstractBDObject {
 
 	@Override
 	public Color getColor() {
-		return Color.LIGHTGRAY;
+		return Color.SANDYBROWN;
+	}
+
+	@Override
+	public Image getSprite() {
+//		return new Image("file:/resources/sprites/gravel.png", true);
+		return null;
 	}
 
 	@Override

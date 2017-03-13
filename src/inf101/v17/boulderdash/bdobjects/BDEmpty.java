@@ -1,5 +1,6 @@
 package inf101.v17.boulderdash.bdobjects;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import inf101.v17.boulderdash.maps.BDMap;
@@ -18,8 +19,11 @@ public class BDEmpty extends AbstractBDObject {
 
 	@Override
 	public Color getColor() {
-		return Color.WHITE;
+		return Color.LIGHTGRAY;
 	}
+
+	@Override
+	public Image getSprite() { return null; }
 
 	@Override
 	public void step() {

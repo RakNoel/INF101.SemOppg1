@@ -288,7 +288,7 @@ public class BDMap {
     public void step() {
         // TODO
         for (int x = 0; x < this.getWidth(); x++)
-            for (int y = 0; y < this.getWidth(); y++)
+            for (int y = 0; y < this.getHeight(); y++)
                 this.get(x,y).step();
     }
 }

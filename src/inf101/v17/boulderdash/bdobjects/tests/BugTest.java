@@ -77,16 +77,16 @@ public class BugTest {
      */
     @Test
     public void bugExpectedMove() {
-        IGrid<Character> grid = new MyGrid<>(5, 5, ' ');
-        grid.set(2, 2, 'b');
+        IGrid<Character> grid = new MyGrid<>(2, 2, ' ');
+        grid.set(1, 1, 'b');
         map = new BDMap(grid);
 
         // find the bug
-        Position bugPos = new Position(2, 2);
+        Position bugPos = new Position(1, 1);
         IBDObject bug = map.get(bugPos);
         assertTrue(bug instanceof BDBug);
 
-        Position expected = new Position(2, 2);
+        Position expected = new Position(1, 1);
         Main:
         for (int p = 1; p <= 4; p++)
             for (int i = 0; i < 100; i++) {
@@ -96,16 +96,16 @@ public class BugTest {
                     System.out.println("Moved");
                     switch (p) {
                         case 1:
-                            expected = new Position(1, 2);
+                            expected = new Position(0, 1);
                             break;
                         case 2:
-                            expected = new Position(1, 1);
+                            expected = new Position(0, 0);
                             break;
                         case 3:
-                            expected = new Position(2, 1);
+                            expected = new Position(1, 0);
                             break;
                         case 4:
-                            expected = new Position(2, 2);
+                            expected = new Position(1, 1);
                             break;
                     }
                     if (!map.getPosition(bug).equals(expected))

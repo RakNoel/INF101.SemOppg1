@@ -19,7 +19,7 @@ public class BDEmpty extends AbstractBDObject {
 
 	@Override
 	public Color getColor() {
-		return Color.LIGHTGRAY;
+		return Color.WHITE;
 	}
 
 	@Override

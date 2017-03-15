@@ -2,6 +2,7 @@ package inf101.v17.boulderdash.bdobjects.tests;
 
 import inf101.v17.boulderdash.Position;
 import inf101.v17.boulderdash.bdobjects.BDBug;
+import inf101.v17.boulderdash.bdobjects.BDPlayer;
 import inf101.v17.boulderdash.bdobjects.IBDObject;
 import inf101.v17.boulderdash.maps.BDMap;
 import inf101.v17.datastructures.IGrid;
@@ -77,7 +78,7 @@ public class BugTest {
      */
     @Test
     public void bugExpectedMove() {
-        IGrid<Character> grid = new MyGrid<>(2, 2, ' ');
+        IGrid<Character> grid = new MyGrid<>(3, 3, ' ');
         grid.set(1, 1, 'b');
         map = new BDMap(grid);
 
@@ -99,10 +100,10 @@ public class BugTest {
                             expected = new Position(0, 1);
                             break;
                         case 2:
-                            expected = new Position(0, 0);
+                            expected = new Position(0, 2);
                             break;
                         case 3:
-                            expected = new Position(1, 0);
+                            expected = new Position(1, 2);
                             break;
                         case 4:
                             expected = new Position(1, 1);
@@ -117,5 +118,60 @@ public class BugTest {
             }
 
 
+    }
+
+    /**
+     * Test to test if bug kills player
+     * */
+    @Test
+    public void playerKilledByBug() {
+        IGrid<Character> grid = new MyGrid<>(3, 3, ' ');
+        grid.set(1, 1, 'b'); //Bug
+        grid.set(0, 2, 'p'); //Player
+        map = new BDMap(grid);
+
+        //Test if both player and bug is created and in grid at right pos
+        Position bugPos = new Position(1, 1);
+        Position plyPos = new Position(0, 2);
+        IBDObject bug = map.get(bugPos);
+        IBDObject ply = map.get(plyPos);
+        assertTrue(bug instanceof BDBug);
+        assertTrue(ply instanceof BDPlayer);
+
+        for (int i = 0; i < 200; i++) {
+            map.step();
+            if (!(map.get(plyPos) instanceof BDPlayer && !(map.get(plyPos) instanceof BDBug))) {
+                // player is dead
+                return;
+            }
+        }
+
+        fail("Player has not been killed within 200 steps");
+    }
+
+    /**
+     * Test to test if bug kills player if blocked by wall
+     * */
+    @Test
+    public void playerNotKilledWall() {
+        IGrid<Character> grid = new MyGrid<>(3, 3, ' ');
+        grid.set(1, 1, 'b'); //Bug
+        grid.set(0, 2, 'p'); //Player
+        grid.set(0, 1, '*'); //Wall
+        map = new BDMap(grid);
+
+        //Test if both player and bug is created and in grid at right pos
+        Position bugPos = new Position(1, 1);
+        Position plyPos = new Position(0, 2);
+        IBDObject bug = map.get(bugPos);
+        IBDObject ply = map.get(plyPos);
+        assertTrue(bug instanceof BDBug);
+        assertTrue(ply instanceof BDPlayer);
+
+        for (int i = 0; i < 200; i++) {
+            map.step();
+            if (!(map.get(plyPos) instanceof BDPlayer && !(map.get(plyPos) instanceof BDBug)))
+                fail("Player was killed even though behind a wall");
+        }
     }
 }

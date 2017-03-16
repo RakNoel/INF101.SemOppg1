@@ -24,12 +24,20 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
      */
     protected boolean alive = true;
 
+    /**
+     * Number of steps taken. basicly just to show sprites
+     */
     protected int stepsTaken = 0;
 
     /**
      * The direction indicated by keypresses.
      */
     protected Direction askedToGo;
+
+    /**
+     * Last direction player went
+     */
+    protected Direction lastDir = Direction.EAST;
 
     /**
      * Number of diamonds collected so far.
@@ -60,7 +68,7 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
     private void updateSprite() {
         try {
             InputStream resourceAsStream = getClass().getResourceAsStream(owner.getSpritePath() +
-                    "/player/player" + (this.stepsTaken+1) + ".png");
+                    "/player/player" + lastDir.toString() +(this.stepsTaken+1) + ".png");
             this.image = new ImagePattern(new Image(resourceAsStream), 0, 0, 1.0, 1.0, true);
         }catch (Exception e) {
             this.image = Color.BLUE;
@@ -77,16 +85,18 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
     public void keyPressed(KeyCode key) {
         switch (key) {
             case LEFT:
-                askedToGo = Direction.WEST;
+                this.askedToGo = Direction.WEST;
+                this.lastDir = this.askedToGo;
                 break;
             case RIGHT:
-                askedToGo = Direction.EAST;
+                this.askedToGo = Direction.EAST;
+                this.lastDir = this.askedToGo;
                 break;
             case UP:
-                askedToGo = Direction.NORTH;
+                this.askedToGo = Direction.NORTH;
                 break;
             case DOWN:
-                askedToGo = Direction.SOUTH;
+                this.askedToGo = Direction.SOUTH;
                 break;
         }
     }

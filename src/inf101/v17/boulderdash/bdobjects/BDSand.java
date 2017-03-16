@@ -26,12 +26,6 @@ public class BDSand extends AbstractBDObject {
 	}
 
 	@Override
-	public Image getSprite() {
-//		return new Image("file:/resources/sprites/gravel.png", true);
-		return null;
-	}
-
-	@Override
 	public void step() {
 		// DO NOTHING
 	}

@@ -33,6 +33,13 @@ public class BDMap {
     protected BDPlayer player;
 
     /**
+     * An objects path to it's sprites
+     */
+    public String getSpritePath(){
+        return "../../../../sprites/";
+    }
+
+    /**
      * Main constructor of this class.
      *
      * @param map    A grid of characters, where each character represents a type
@@ -243,12 +250,6 @@ public class BDMap {
      * @return
      */
     public Position getPosition(IBDObject object) {
-        // TODO
-//		for (int x = 0; x < this.getHeight(); x++)
-//			for (int y = 0; y < this.getWidth(); y++)
-//				if(this.get(x,y) == object)
-//					return new Position(x, y);
-
         return hashMap.get(object);
     }
 
@@ -288,7 +289,6 @@ public class BDMap {
     }
 
     public void step() {
-        // TODO
         for (int x = 0; x < this.getWidth(); x++)
             for (int y = 0; y < this.getHeight(); y++)
                 this.get(x,y).step();

@@ -2,14 +2,19 @@ package inf101.v17.boulderdash.bdobjects;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 import inf101.v17.boulderdash.Direction;
 import inf101.v17.boulderdash.IllegalMoveException;
 import inf101.v17.boulderdash.Position;
 import inf101.v17.boulderdash.maps.BDMap;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 
 /**
  * An implementation of a bug.
@@ -58,6 +63,11 @@ public class BDBug extends AbstractBDKillingObject implements IBDKillable {
 	protected int radius = 1;
 
 	/**
+	 *
+	 */
+	private Paint image;
+
+	/**
 	 * The standard constructor, where pause is set to MIN_PAUSE and radius to
 	 * 1.
 	 *
@@ -88,15 +98,24 @@ public class BDBug extends AbstractBDKillingObject implements IBDKillable {
 		this.radius = radius;
 		this.pause = pause < MIN_PAUSE ? MIN_PAUSE : pause;
 		initTrajectory();
+
+		Random rnd = new Random();
+		int rand = rnd.nextInt(7) + 1;
+		String filepath = owner.getSpritePath() + "bug/bug" + rand + ".png";
+
+		try {
+			InputStream resourceAsStream = getClass().getResourceAsStream(filepath);
+			this.image = new ImagePattern(new Image(resourceAsStream), 0, 0, 1.0, 1.0, true);
+		}catch (Exception e) {
+			this.image = Color.DARKGREEN;
+		}
 	}
 
 	@Override
-	public Color getColor() {
-		return Color.GREEN;
+	public Paint getColor() {
+		return this.image;
 	}
 
-	@Override
-	public Image getSprite() { return null; }
 
 	/**
 	 * Initialize the path of this bug, which is its initial position and then

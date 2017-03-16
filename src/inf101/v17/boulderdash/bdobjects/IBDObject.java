@@ -26,7 +26,6 @@ public interface IBDObject {
 	 * 
 	 * @return
 	 */
-	Image getSprite();
 
 	Paint getColor();
 

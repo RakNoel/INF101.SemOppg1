@@ -4,6 +4,10 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import inf101.v17.boulderdash.maps.BDMap;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
+
+import java.io.InputStream;
 
 /**
  * An empty tile.
@@ -13,17 +17,23 @@ import inf101.v17.boulderdash.maps.BDMap;
  */
 public class BDEmpty extends AbstractBDObject {
 
+	private Paint image;
+
 	public BDEmpty(BDMap owner) {
 		super(owner);
+
+		try {
+			InputStream resourceAsStream = getClass().getResourceAsStream("../../../../sprites/backgrount.png");
+			this.image = new ImagePattern(new Image(resourceAsStream), 0, 0, 1.0, 1.0, true);
+		}catch (Exception e) {
+			this.image = Color.WHITE;
+		}
 	}
 
 	@Override
-	public Color getColor() {
-		return Color.WHITE;
+	public Paint getColor() {
+		return this.image;
 	}
-
-	@Override
-	public Image getSprite() { return null; }
 
 	@Override
 	public void step() {

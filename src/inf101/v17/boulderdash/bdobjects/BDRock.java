@@ -29,12 +29,14 @@ public class BDRock extends AbstractBDFallingObject {
                 if (this.owner.canGo(this.getX() - 1, this.getY())
                         && this.owner.get(this.getX() - 1, this.getY()) instanceof BDEmpty) {
                     this.prepareMoveTo(dir);
+                    super.step();
                     return true;
                 }
             } else if (dir.equals(Direction.EAST)) {
                 if (this.owner.canGo(this.getX() + 1, this.getY())
                         && this.owner.get(this.getX() + 1, this.getY()) instanceof BDEmpty) {
                     this.prepareMoveTo(dir);
+                    super.step();
                     return true;
                 }
             }else{

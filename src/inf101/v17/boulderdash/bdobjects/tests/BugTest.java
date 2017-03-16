@@ -170,8 +170,7 @@ public class BugTest {
 
         for (int i = 0; i < 200; i++) {
             map.step();
-            if (!(map.get(plyPos) instanceof BDPlayer && !(map.get(plyPos) instanceof BDBug)))
-                fail("Player was killed even though behind a wall");
+            assertTrue(map.getPlayer().isAlive());
         }
     }
 }

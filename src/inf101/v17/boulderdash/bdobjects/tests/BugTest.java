@@ -1,7 +1,7 @@
 package inf101.v17.boulderdash.bdobjects.tests;
 
 import inf101.v17.boulderdash.Position;
-import inf101.v17.boulderdash.bdobjects.BDBug;
+import inf101.v17.boulderdash.bdobjects.BDMonster;
 import inf101.v17.boulderdash.bdobjects.BDPlayer;
 import inf101.v17.boulderdash.bdobjects.IBDObject;
 import inf101.v17.boulderdash.maps.BDMap;
@@ -32,7 +32,7 @@ public class BugTest {
         // find the bug
         Position bugPos = new Position(2, 2);
         IBDObject bug = map.get(bugPos);
-        assertTrue(bug instanceof BDBug);
+        assertTrue(bug instanceof BDMonster);
 
         for (int i = 0; i < 100; i++) {
             map.step();
@@ -60,7 +60,7 @@ public class BugTest {
         // find the bug
         Position bugPos = new Position(1, 1);
         IBDObject bug = map.get(bugPos);
-        assertTrue(bug instanceof BDBug);
+        assertTrue(bug instanceof BDMonster);
 
         for (int i = 0; i < 100; i++) {
             map.step();
@@ -85,7 +85,7 @@ public class BugTest {
         // find the bug
         Position bugPos = new Position(1, 1);
         IBDObject bug = map.get(bugPos);
-        assertTrue(bug instanceof BDBug);
+        assertTrue(bug instanceof BDMonster);
 
         Position expected = new Position(1, 1);
         Main:
@@ -135,12 +135,12 @@ public class BugTest {
         Position plyPos = new Position(0, 2);
         IBDObject bug = map.get(bugPos);
         IBDObject ply = map.get(plyPos);
-        assertTrue(bug instanceof BDBug);
+        assertTrue(bug instanceof BDMonster);
         assertTrue(ply instanceof BDPlayer);
 
         for (int i = 0; i < 200; i++) {
             map.step();
-            if (!(map.get(plyPos) instanceof BDPlayer && !(map.get(plyPos) instanceof BDBug))) {
+            if (!(map.get(plyPos) instanceof BDPlayer && !(map.get(plyPos) instanceof BDMonster))) {
                 // player is dead
                 return;
             }
@@ -165,7 +165,7 @@ public class BugTest {
         Position plyPos = new Position(0, 2);
         IBDObject bug = map.get(bugPos);
         IBDObject ply = map.get(plyPos);
-        assertTrue(bug instanceof BDBug);
+        assertTrue(bug instanceof BDMonster);
         assertTrue(ply instanceof BDPlayer);
 
         for (int i = 0; i < 200; i++) {

@@ -28,7 +28,6 @@ public class BDDoor extends AbstractBDObject {
         return this.image;
     }
 
-
     public void step() {
         //Hodor! HODOR! HOOODOOOR!
     }

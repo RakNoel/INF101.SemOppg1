@@ -22,6 +22,11 @@ public class BDMap {
     protected IGrid<IBDObject> grid;
 
     /**
+     * Stores time
+     */
+    protected int seconds;
+
+    /**
      * Stores position of each object with their hash
      */
     protected HashMap<IBDObject, Position> hashMap;
@@ -33,19 +38,12 @@ public class BDMap {
     protected BDPlayer player;
 
     /**
-     * An objects path to it's sprites
-     */
-    public String getSpritePath(){
-        return "../../../../sprites/";
-    }
-
-    /**
      * Main constructor of this class.
      *
      * @param map    A grid of characters, where each character represents a type
      *               of {@link #IBDObject}: ' ' - {@link #BDEmpty}, '*' -
      *               {@link BDWall}, '#' - {@link #BDSand}, 'd' -
-     *               {@link #BDDiamond}, 'b' - {@link BDBug}, 'r' -
+     *               {@link #BDDiamond}, 'b' - {@link BDMonster}, 'r' -
      *               {@link #BDRock}, 'p' - {@link #BDPlayer}
      * @param player The player object has to be initialized separately.
      */
@@ -54,6 +52,14 @@ public class BDMap {
         hashMap = new HashMap<IBDObject, Position>();
         this.player = new BDPlayer(this);
         fillGrid(map);
+        this.seconds = Math.max(800, this.getHeight()*this.getWidth());
+    }
+
+    /**
+     * An objects path to it's sprites
+     */
+    public String getSpritePath() {
+        return "../../../../sprites/";
     }
 
     /**
@@ -95,6 +101,13 @@ public class BDMap {
     }
 
     /**
+     * Returns seconds left
+     */
+    public int getTimeLeft(){
+        return this.seconds;
+    }
+
+    /**
      * Cf. {@link #canGo(IBDObject, Direction)}
      *
      * @param pos
@@ -129,7 +142,7 @@ public class BDMap {
             for (int y = 0; y < height; y++) {
                 IBDObject obj = makeObject(inputmap.get(x, y), x, y);
                 grid.set(x, y, obj);
-                hashMap.put(obj, new Position(x,y));
+                hashMap.put(obj, new Position(x, y));
             }
         }
     }
@@ -144,27 +157,31 @@ public class BDMap {
      * @return
      */
     private IBDObject makeObject(Character c, int x, int y) {
-        if (c == 'p') {
-            return this.player;
-        } else if (c == '*') {
-            return new BDWall(this);
-        } else if (c == 'b') {
-            try {
-                return new BDBug(this, new Position(x, y), 1, 10);
-            } catch (IllegalMoveException e) {
-                e.printStackTrace();
-            }
-        } else if (c == '#') {
-            return new BDSand(this);
-        } else if (c == ' ') {
-            return new BDEmpty(this);
-        } else if (c == 'd') {
-            return new BDDiamond(this);
-        } else if (c == 'r') {
-            return new BDRock(this);
+        switch (c) {
+            case 'p':
+                return this.player;
+            case '*':
+                return new BDWall(this);
+            case '#':
+                return new BDSand(this);
+            case ' ':
+                return new BDEmpty(this);
+            case 'd':
+                return new BDDiamond(this);
+            case 'r':
+                return new BDRock(this);
+            case 'q':
+                return new BDDoor(this);
+            case 'b':
+                try {
+                    return new BDMonster(this, new Position(x, y), 1, 10);
+                } catch (IllegalMoveException e) {
+                    e.printStackTrace();
+                }
+            default:
+                System.err.println("Illegal character in map definition at (" + x + ", " + y + "): '" + c + "'");
+                return new BDEmpty(this);
         }
-        System.err.println("Illegal character in map definition at (" + x + ", " + y + "): '" + c + "'");
-        return new BDEmpty(this);
         // alternatively, throw an exception
         // throw new IllegalArgumentException();
     }
@@ -291,6 +308,26 @@ public class BDMap {
     public void step() {
         for (int x = 0; x < this.getWidth(); x++)
             for (int y = 0; y < this.getHeight(); y++)
-                this.get(x,y).step();
+                this.get(x, y).step();
+
+        if (this.seconds > 0)
+            this.seconds--;
+    }
+
+    public void finish() {
+        int monsterLeft = 0,
+                diams = this.player.numberOfDiamonds(),
+                timeLeft = this.seconds;
+        ;
+        for (int x = 0; x < this.getWidth(); x++){
+            for (int y = 0; y < this.getHeight(); y++){
+                if (this.get(x,y) instanceof BDMonster){
+                    monsterLeft++;
+                }
+            }
+        }
+
+
+
     }
 }

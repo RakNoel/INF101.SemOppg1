@@ -60,7 +60,7 @@ public class BoulderDashGUI extends Application implements EventHandler<KeyEvent
 
 		message = new Text(10, 0, "");
 		message.setFont(new Font(26));
-		message.setFill(Color.WHEAT);
+		message.setFill(Color.WHITE);
 		message.setText("Diamonds: " + map.getPlayer().numberOfDiamonds());
 
 		mapComponent = new BDMapComponent(map);

@@ -22,7 +22,7 @@ import javafx.scene.paint.Paint;
  * @author larsjaffke
  *
  */
-public class BDBug extends AbstractBDKillingObject implements IBDKillable {
+public class BDMonster extends AbstractBDKillingObject implements IBDKillable {
 
 	/**
 	 * The amount of diamonds a bug turns into after it got killed.
@@ -75,7 +75,7 @@ public class BDBug extends AbstractBDKillingObject implements IBDKillable {
 	 * @param initialPos
 	 * @throws IllegalMoveException
 	 */
-	public BDBug(BDMap owner, Position initialPos) throws IllegalMoveException {
+	public BDMonster(BDMap owner, Position initialPos) throws IllegalMoveException {
 		super(owner);
 		this.initialPos = initialPos;
 		initTrajectory();
@@ -92,7 +92,7 @@ public class BDBug extends AbstractBDKillingObject implements IBDKillable {
 	 * @param pause
 	 * @throws IllegalMoveException
 	 */
-	public BDBug(BDMap owner, Position initialPos, int radius, int pause) throws IllegalMoveException {
+	public BDMonster(BDMap owner, Position initialPos, int radius, int pause) throws IllegalMoveException {
 		super(owner);
 		this.initialPos = initialPos;
 		this.radius = radius;

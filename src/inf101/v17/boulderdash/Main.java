@@ -19,4 +19,11 @@ public class Main {
 		BoulderDashGUI.run(map);
 	}
 
+	//TODO: Add fancy rocks
+	//TODO: Add music!
+	//TODO: Add sound!
+	//TODO: Add more levels
+	//TODO: Add AI
+	//TODO: Add Level creator?
+
 }

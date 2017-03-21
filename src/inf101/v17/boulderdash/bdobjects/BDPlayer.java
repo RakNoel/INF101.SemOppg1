@@ -3,14 +3,14 @@ package inf101.v17.boulderdash.bdobjects;
 import inf101.v17.boulderdash.Direction;
 import inf101.v17.boulderdash.IllegalMoveException;
 import inf101.v17.boulderdash.Position;
+import inf101.v17.boulderdash.gui.spriteReader;
 import inf101.v17.boulderdash.maps.BDMap;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 /**
  * An implementation of the player.
@@ -37,7 +37,7 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
     /**
      * Last direction player went
      */
-    protected Direction lastDir = Direction.EAST;
+    protected int lastDir = 0;
 
     /**
      * Number of diamonds collected so far.
@@ -47,32 +47,35 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
     /**
      * The color /image that shall be painted for this objct
      */
-    private Paint image;
+    private ArrayList<Paint> images;
+
+    private spriteReader SPR;
 
     public BDPlayer(BDMap owner) {
         super(owner);
-
         try {
-            InputStream resourceAsStream = getClass().getResourceAsStream(owner.getSpritePath() +  "/player/player1.png");
-            this.image = new ImagePattern(new Image(resourceAsStream), 0, 0, 1.0, 1.0, true);
-        }catch (Exception e) {
-            this.image = Color.BLUE;
+            InputStream reAsStr = getClass().getResourceAsStream("../../../../sprites/player/playerSheet.png");
+            this.SPR = new spriteReader(reAsStr, 35, 35, 2);
+
+
+            images = new ArrayList<>();
+            images.add(Color.BLUE);
+
+            for (int y = 0; y < 2; y++) {
+                for (int x = 0; x < 8; x++) {
+                    images.add(SPR.getSprite(x, y));
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
         }
     }
 
     @Override
     public Paint getColor() {
-        return this.image;
-    }
-
-    private void updateSprite() {
-        try {
-            InputStream resourceAsStream = getClass().getResourceAsStream(owner.getSpritePath() +
-                    "/player/player" + lastDir.toString() +(this.stepsTaken+1) + ".png");
-            this.image = new ImagePattern(new Image(resourceAsStream), 0, 0, 1.0, 1.0, true);
-        }catch (Exception e) {
-            this.image = Color.BLUE;
-        }
+        return this.images.get(((stepsTaken/2)+1)+(8*lastDir));
     }
 
     /**
@@ -86,11 +89,11 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
         switch (key) {
             case LEFT:
                 this.askedToGo = Direction.WEST;
-                this.lastDir = this.askedToGo;
+                this.lastDir = 1;
                 break;
             case RIGHT:
                 this.askedToGo = Direction.EAST;
-                this.lastDir = this.askedToGo;
+                this.lastDir = 0;
                 break;
             case UP:
                 this.askedToGo = Direction.NORTH;
@@ -127,11 +130,12 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
                 meCanGo = ((BDRock) obj).push(this.askedToGo);
             } else if (obj instanceof BDDiamond) {
                 this.diamondCnt++;
-            } else if (obj instanceof BDMonster){
+            } else if (obj instanceof BDBug) {
                 this.kill();
                 meCanGo = false;
-            } else if (obj instanceof BDDoor){
+            } else if (obj instanceof BDDoor) {
                 owner.finish();
+                meCanGo = false;
             }
 
             if (meCanGo) {
@@ -142,13 +146,10 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
                 }
             }
 
-            this.stepsTaken = ++this.stepsTaken%2;
-
-            updateSprite();
-
             this.askedToGo = null;
             super.step();
         }
+        this.stepsTaken = ++this.stepsTaken % 16;
     }
 
     @Override

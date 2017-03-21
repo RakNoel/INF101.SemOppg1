@@ -4,9 +4,15 @@ import inf101.v17.boulderdash.Direction;
 import inf101.v17.boulderdash.IllegalMoveException;
 import inf101.v17.boulderdash.Position;
 import inf101.v17.boulderdash.bdobjects.*;
+import inf101.v17.boulderdash.gui.spriteReader;
 import inf101.v17.datastructures.IGrid;
 import inf101.v17.datastructures.MyGrid;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -15,6 +21,24 @@ import java.util.*;
  * @author larsjaffke
  */
 public class BDMap {
+
+    protected final int spriteWidth = 35;
+    protected final int spriteHeight = 35;
+    protected final int spriteBuffer = 2;
+    protected final int totalSprites = 41;
+    /**
+     * Reads and stores sprites for the textures.
+     */
+    protected spriteReader spriteReader;
+    protected ArrayList<Paint> sprites;
+
+    protected int playerPoints = 0;
+    protected boolean finished = false;
+
+    /**
+     * This maps background
+     */
+    protected String background;
 
     /**
      * Stores the data of the map
@@ -43,7 +67,7 @@ public class BDMap {
      * @param map    A grid of characters, where each character represents a type
      *               of {@link #IBDObject}: ' ' - {@link #BDEmpty}, '*' -
      *               {@link BDWall}, '#' - {@link #BDSand}, 'd' -
-     *               {@link #BDDiamond}, 'b' - {@link BDMonster}, 'r' -
+     *               {@link #BDDiamond}, 'b' - {@link BDBug}, 'r' -
      *               {@link #BDRock}, 'p' - {@link #BDPlayer}
      * @param player The player object has to be initialized separately.
      */
@@ -51,15 +75,41 @@ public class BDMap {
         grid = new MyGrid<IBDObject>(map.getWidth(), map.getHeight(), null);
         hashMap = new HashMap<IBDObject, Position>();
         this.player = new BDPlayer(this);
+
+        this.sprites = new ArrayList<Paint>(totalSprites);
+        for (int y = 0; y < Math.sqrt(totalSprites); y++)
+            for (int x = 0; x < Math.sqrt(totalSprites); x++)
+                sprites.add(Color.BLACK);
+
         fillGrid(map);
-        this.seconds = Math.max(800, this.getHeight()*this.getWidth());
+        this.seconds = Math.max(800, this.getHeight() * this.getWidth());
     }
 
-    /**
-     * An objects path to it's sprites
-     */
-    public String getSpritePath() {
-        return "../../../../sprites/";
+    public BDMap(IGrid<Character> map, String background) {
+        grid = new MyGrid<IBDObject>(map.getWidth(), map.getHeight(), null);
+        hashMap = new HashMap<IBDObject, Position>();
+        this.player = new BDPlayer(this);
+
+
+        this.sprites = new ArrayList<Paint>(totalSprites);
+        try {
+            InputStream reAsStr = getClass().getResourceAsStream("../../../../sprites/textures/textures.png");
+            this.spriteReader = new spriteReader(reAsStr, spriteHeight, spriteWidth, spriteBuffer);
+
+
+            for (int y = 0; y < Math.sqrt(totalSprites); y++)
+                for (int x = 0; x < Math.sqrt(totalSprites); x++)
+                    sprites.add(spriteReader.getSprite(x, y));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+
+
+        fillGrid(map);
+        this.seconds = 8*Math.min(800, this.getHeight() * this.getWidth());
+        this.background = background;
     }
 
     /**
@@ -103,8 +153,8 @@ public class BDMap {
     /**
      * Returns seconds left
      */
-    public int getTimeLeft(){
-        return this.seconds;
+    public int getTimeLeft() {
+        return this.seconds/8;
     }
 
     /**
@@ -174,7 +224,7 @@ public class BDMap {
                 return new BDDoor(this);
             case 'b':
                 try {
-                    return new BDMonster(this, new Position(x, y), 1, 10);
+                    return new BDBug(this, new Position(x, y), 1, 10);
                 } catch (IllegalMoveException e) {
                     e.printStackTrace();
                 }
@@ -214,6 +264,10 @@ public class BDMap {
      */
     public int getHeight() {
         return grid.getHeight();
+    }
+
+    public int getPlayerPoints(){
+        return this.playerPoints;
     }
 
     /**
@@ -279,6 +333,10 @@ public class BDMap {
         return grid.getWidth();
     }
 
+    public boolean getFinished(){
+        return this.finished;
+    }
+
     /**
      * Check whether (x, y) is a valid position in this map.
      *
@@ -310,24 +368,44 @@ public class BDMap {
             for (int y = 0; y < this.getHeight(); y++)
                 this.get(x, y).step();
 
-        if (this.seconds > 0)
+        if (this.seconds > 1)
             this.seconds--;
+        else
+            this.player.kill();
     }
 
     public void finish() {
         int monsterLeft = 0,
                 diams = this.player.numberOfDiamonds(),
                 timeLeft = this.seconds;
-        ;
-        for (int x = 0; x < this.getWidth(); x++){
-            for (int y = 0; y < this.getHeight(); y++){
-                if (this.get(x,y) instanceof BDMonster){
+
+        for (int x = 0; x < this.getWidth(); x++)
+            for (int y = 0; y < this.getHeight(); y++)
+                if (this.get(x, y) instanceof BDBug)
                     monsterLeft++;
-                }
-            }
+
+        int points = diams*100;
+        points += timeLeft;
+        points -= monsterLeft*100;
+
+        if(points < 0)
+            points = 0;
+
+        this.playerPoints = points;
+        this.finished = true;
+
+    }
+
+    public Paint getBackground() {
+        try {
+            InputStream resourceAsStream = getClass().getResourceAsStream(this.background);
+            return new ImagePattern(new Image(resourceAsStream), 0, 0, 1.0, 1.0, true);
+        } catch (Exception e) {
+            return Color.WHITE;
         }
+    }
 
-
-
+    public Paint getSprite(int x, int y) {
+        return this.sprites.get((y*7) + x);
     }
 }

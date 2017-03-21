@@ -18,13 +18,7 @@ public class BDRock extends AbstractBDFallingObject {
 
     public BDRock(BDMap owner) {
         super(owner);
-
-        try {
-            InputStream resourceAsStream = getClass().getResourceAsStream("../../../../sprites/gravel.png");
-            this.image = new ImagePattern(new Image(resourceAsStream), 0, 0, 1.0, 1.0, true);
-        }catch (Exception e) {
-            this.image = Color.DARKGRAY;
-        }
+        this.image = owner.getSprite(2,0);
     }
 
     public Paint getColor() {

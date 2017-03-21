@@ -11,11 +11,11 @@ import inf101.v17.datastructures.IGrid;
  */
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		// This is how you set up the program, change the file path accordingly.
-		MapReader reader = new MapReader("resources/levels/level1.txt");
+		MapReader reader = new MapReader("resources/levels/testMap3.txt");
 		IGrid<Character> rawGrid = reader.read();
-		BDMap map = new BDMap(rawGrid);
+		BDMap map = new BDMap(rawGrid, "../../../../sprites/background/back_cave.png");
 		BoulderDashGUI.run(map);
 	}
 

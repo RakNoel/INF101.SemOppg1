@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import inf101.v17.boulderdash.maps.BDMap;
+import javafx.scene.paint.Paint;
 
 import java.io.File;
 
@@ -15,14 +16,16 @@ import java.io.File;
  *
  */
 public class BDSand extends AbstractBDObject {
+	private Paint image;
 
 	public BDSand(BDMap owner) {
 		super(owner);
+		this.image = owner.getSprite(1,0);
 	}
 
 	@Override
-	public Color getColor() {
-		return Color.SANDYBROWN;
+	public Paint getColor() {
+		return this.image;
 	}
 
 	@Override

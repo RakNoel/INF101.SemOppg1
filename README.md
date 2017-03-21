@@ -182,7 +182,7 @@ repositoriet med den følgende urien:
 * **inf101.v17.boulderdash.bdobjects.AbstractBDMovingObject** - Abstrakt klasse som implementerer felles oppførsel for bevegende objekter [extends AbstractBDObject, implements IBDMovingObject]
 * inf101.v17.boulderdash.bdobjects.AbstractBDKillingObject - Abstrakt klasse som implementerer felles oppførsel for felt-objekter som dreper ting når de beveger seg over det. [extends AbstractBDMovingObject]
 * inf101.v17.boulderdash.bdobjects.AbstractBDFallingObject - Abstrakt klasse for objekter som faller (f.eks. steiner og diamanter) [extends AbstractBDKillingObject]
-* inf101.v17.boulderdash.bdobjects.BDMonster - Et Monster [extends AbstractBDKillingObject, implements IBDKillable]
+* inf101.v17.boulderdash.bdobjects.BDBug - Et Monster [extends AbstractBDKillingObject, implements IBDKillable]
 * inf101.v17.boulderdash.bdobjects.BDDiamond - En Diamond [extends AbstractBDKillingObject]
 * inf101.v17.boulderdash.bdobjects.BDEmpty - Et tomt felt [extends AbstractBDObject]
 * **inf101.v17.boulderdash.bdobjects.BDPlayer** - Spilleren [extends AbstractBDMovingObject, implements IBDKillable]

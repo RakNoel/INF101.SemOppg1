@@ -22,12 +22,7 @@ public class BDEmpty extends AbstractBDObject {
 	public BDEmpty(BDMap owner) {
 		super(owner);
 
-		try {
-			InputStream resourceAsStream = getClass().getResourceAsStream("../../../../sprites/backgrount.png");
-			this.image = new ImagePattern(new Image(resourceAsStream), 0, 0, 1.0, 1.0, true);
-		}catch (Exception e) {
-			this.image = Color.WHITE;
-		}
+		this.image = Color.TRANSPARENT;
 	}
 
 	@Override

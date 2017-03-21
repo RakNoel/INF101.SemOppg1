@@ -19,13 +19,7 @@ public class BDWall extends AbstractBDObject {
 
     public BDWall(BDMap owner) {
         super(owner);
-
-        try {
-            InputStream resourceAsStream = getClass().getResourceAsStream("../../../../sprites/wall.png");
-            this.image = new ImagePattern(new Image(resourceAsStream), 0, 0, 1.0, 1.0, true);
-        } catch (Exception e) {
-            this.image = Color.BLACK;
-        }
+        this.image = owner.getSprite(0,0);
     }
 
     @Override

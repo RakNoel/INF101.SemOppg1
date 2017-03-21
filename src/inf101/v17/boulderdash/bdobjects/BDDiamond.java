@@ -21,13 +21,7 @@ public class BDDiamond extends AbstractBDFallingObject {
 
 	public BDDiamond(BDMap owner) {
 		super(owner);
-
-		try {
-			InputStream resourceAsStream = getClass().getResourceAsStream("../../../../sprites/diamond.png");
-			this.image = new ImagePattern(new Image(resourceAsStream), 0, 0, 1.0, 1.0, true);
-		}catch (Exception e) {
-			this.image = Color.AQUA;
-		}
+		this.image = owner.getSprite(3,0);
 	}
 
 	@Override

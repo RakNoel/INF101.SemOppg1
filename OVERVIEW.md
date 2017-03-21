@@ -16,7 +16,7 @@ av et open-source programm:
 * <a href='http://opengameart.org/content/backgrounds-0'>All Other</a> no changes
 
 ###Sound:
-* All sounds generated with dr.petters <a href='drpetter.se/project_sfxr'>project_sfxr!</a>
+* All sounds generated with dr.petters <a href='http://www.drpetter.se/project_sfxr.html'>project_sfxr!</a>
 
 ##Forståelse av programmet før programmering:
 Programmet var meget vanskelig å sette seg inn i til å starte med. Førte egentlig til at jeg selv

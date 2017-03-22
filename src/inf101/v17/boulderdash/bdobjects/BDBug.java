@@ -5,6 +5,7 @@ import inf101.v17.boulderdash.IllegalMoveException;
 import inf101.v17.boulderdash.Position;
 import inf101.v17.boulderdash.gui.spriteReader;
 import inf101.v17.boulderdash.maps.BDMap;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 import java.io.InputStream;
@@ -107,8 +108,8 @@ public class BDBug extends AbstractBDKillingObject implements IBDKillable {
 
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
+            System.err.print("Can't find bug sprites");
+            image = Color.GREEN;
         }
     }
 

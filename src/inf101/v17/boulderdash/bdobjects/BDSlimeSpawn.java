@@ -1,6 +1,5 @@
 package inf101.v17.boulderdash.bdobjects;
 
-import inf101.v17.boulderdash.Position;
 import inf101.v17.boulderdash.maps.BDMap;
 import javafx.scene.paint.Paint;
 
@@ -12,7 +11,6 @@ public class BDSlimeSpawn extends AbstractBDKillingObject {
 
     private ArrayList<Paint> image;
     private int counter;
-    private Position myPos;
     private int waitingTime;
     private Random rnd;
 
@@ -29,21 +27,36 @@ public class BDSlimeSpawn extends AbstractBDKillingObject {
 
     @Override
     public void step() {
-        if (myPos == null)
-            this.myPos = this.owner.getPosition(this);
+        try {
+            IBDObject over = owner.get(this.getX(), this.getY() + 1);
 
+            if (over instanceof BDEmpty)
+                owner.set(this.getX(), this.getY(), new BDSlimeDrop(owner));
+
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("Can't grab over slime");
+        }
         if (--this.waitingTime <= 0) {
-            IBDObject under = owner.get(myPos.getX(), myPos.getY() - 1);
-            if (under instanceof IBDKillable && counter < 5) {
-                ++counter;
-            }else if (under instanceof IBDKillable && counter >= 5) {
-                ((IBDKillable) under).kill();
-            }else if (under instanceof BDEmpty) {
-                if (++counter % 6 == 0) {
-                    owner.set(myPos.getX(), myPos.getY() - 1, new BDSlimeDrop(owner));
-                    counter = 0;
-                    this.waitingTime = 24 + rnd.nextInt(8);
+            try {
+                IBDObject under = owner.get(this.getX(), this.getY() - 1);
+
+                if (under instanceof IBDKillable && counter < 5) {
+                    ++counter;
+                } else if (under instanceof IBDKillable && counter >= 5) {
+                    ((IBDKillable) under).kill();
+                    this.owner.set(this.getX(), this.getY() - 1, new BDSlimeDrop(owner));
+                } else if (under instanceof BDEmpty) {
+                    if (++counter % 6 == 0) {
+                        owner.set(this.getX(), this.getY() - 1, new BDSlimeDrop(owner));
+                        counter = 0;
+                        this.waitingTime = 24 + rnd.nextInt(8);
+                    }
+                } else {
+                    waitingTime = 24;
                 }
+            } catch (IndexOutOfBoundsException e) {
+                System.err.println("Can't grab under slime");
+                waitingTime = 100000;
             }
         }
         super.step();

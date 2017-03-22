@@ -84,7 +84,8 @@ public class slimeTest {
         spawnerKills('b');
     }
     private void spawnerKills(char Killable){
-        IGrid<Character> grid = new MyGrid<>(3, 5, ' ');
+        IGrid<Character> grid = new MyGrid<>(3, 6, ' ');
+        grid.set(1, 4, '*');
         grid.set(1, 4, 'S');
         grid.set(1, 3, ' ');
         grid.set(1, 2, ' ');
@@ -104,15 +105,16 @@ public class slimeTest {
     @Test
     public void spawnerSpawnsDrop(){
         IGrid<Character> grid = new MyGrid<>(3, 5, ' ');
-        grid.set(1, 4, 'S');
+        grid.set(1, 4, '*');
+        grid.set(1, 3, 'S');
         map = new BDMap(grid);
 
-        assertTrue(map.get(1,4) instanceof BDSlimeSpawn);
+        assertTrue(map.get(1,3) instanceof BDSlimeSpawn);
 
         for (int i = 0; i < 100; i++){
             map.step();
 
-            if(map.get(1,2) instanceof BDSlimeDrop)
+            if(map.get(1,1) instanceof BDSlimeDrop)
                 return;
         }
 
@@ -122,7 +124,15 @@ public class slimeTest {
 
     @Test
     public void spawnerNeedsRoof(){
-        //TODO
+        IGrid<Character> grid = new MyGrid<>(8, 8, ' ');
+        grid.set(4, 5, 'S');
+        grid.set(3, 2, '*');
+        map = new BDMap(grid);
+
+        for (int i = 0; i < 100; i++)
+            map.step();
+
+        assertFalse(map.get(4,5) instanceof BDSlimeSpawn);
     }
 
     @Test
@@ -130,7 +140,6 @@ public class slimeTest {
         spawnerKillsUnder('b');
         spawnerKillsUnder('p');
     }
-
     private void spawnerKillsUnder(char killable){
         IGrid<Character> grid = new MyGrid<>(8, 8, ' ');
         grid.set(4, 3, 'S');
@@ -141,7 +150,7 @@ public class slimeTest {
         assertTrue(map.get(4,3) instanceof BDSlimeSpawn);
         assertTrue(map.get(4,2) instanceof IBDKillable);
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 200; i++)
             map.step();
 
         assertFalse(map.get(4,2) instanceof IBDKillable);

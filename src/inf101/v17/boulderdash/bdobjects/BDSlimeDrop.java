@@ -25,7 +25,9 @@ public class BDSlimeDrop extends AbstractBDFallingObject {
         IBDObject under = owner.get(myPos.getX(), myPos.getY() - 1);
 
         //Since fall is void we have to see for ourself if it can fall
-        if (!(under instanceof BDEmpty)) {
+        if(under instanceof BDPlayer){
+            this.owner.getPlayer().kill();
+        }else if (!(under instanceof BDEmpty)) {
             owner.set(this.getX(), this.getY(), new BDEmpty(owner));
         } else {
             fall();

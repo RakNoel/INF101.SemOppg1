@@ -69,6 +69,9 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
         } catch (Exception e) {
             System.err.println("Finner ikke player pritesheet");
 
+            images = new ArrayList<>();
+            images.add(Color.BLUE);
+
             for (int y = 0; y < 2; y++)
                 for (int x = 0; x < 8; x++)
                     images.add(Color.BLUE);

@@ -15,14 +15,14 @@ public class spriteReader {
     private int spriteWidth;
     private int spriteBuffer;
 
-    public spriteReader(InputStream inStream, int spriteHeight, int spriteWidth, int spriteBuffer) throws Exception {
+    public spriteReader(InputStream inStream, int spriteHeight, int spriteWidth, int spriteBuffer) throws Exception{
         this.bImage = ImageIO.read(inStream);
         this.spriteHeight = spriteHeight;
         this.spriteWidth = spriteWidth;
         this.spriteBuffer = spriteBuffer;
     }
 
-    public Paint getSprite(int x, int y) throws Exception {
+    public Paint getSprite(int x, int y) {
         x *= (spriteWidth + spriteBuffer);
         y *= (spriteHeight + spriteBuffer);
         BufferedImage holder = bImage.getSubimage(x, y, spriteWidth, spriteHeight);

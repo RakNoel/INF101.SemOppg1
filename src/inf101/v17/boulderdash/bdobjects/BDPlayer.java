@@ -61,21 +61,24 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
             images = new ArrayList<>();
             images.add(Color.BLUE);
 
-            for (int y = 0; y < 2; y++) {
-                for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 2; y++)
+                for (int x = 0; x < 8; x++)
                     images.add(SPR.getSprite(x, y));
-                }
-            }
+
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
+            System.err.println("Finner ikke player pritesheet");
+
+            for (int y = 0; y < 2; y++)
+                for (int x = 0; x < 8; x++)
+                    images.add(Color.BLUE);
+
         }
     }
 
     @Override
     public Paint getColor() {
-        return this.images.get(((stepsTaken/2)+1)+(8*lastDir));
+        return this.images.get(((stepsTaken / 2) + 1) + (8 * lastDir));
     }
 
     /**

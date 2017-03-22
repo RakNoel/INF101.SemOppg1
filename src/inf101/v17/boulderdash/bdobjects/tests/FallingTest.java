@@ -54,7 +54,7 @@ public class FallingTest {
 		restingDoesntKill('r');
 		restingDoesntKill('d');
 	}
-	public void restingDoesntKill(char test) {
+	private void restingDoesntKill(char test) {
 		// diamond on top of player doesn't kill player
 		IGrid<Character> grid = new MyGrid<>(2, 5, ' ');
 		grid.set(0, 3, test);

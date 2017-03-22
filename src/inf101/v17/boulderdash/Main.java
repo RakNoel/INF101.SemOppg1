@@ -13,7 +13,7 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		// This is how you set up the program, change the file path accordingly.
-		MapReader reader = new MapReader("resources/levels/testMap3.txt");
+		MapReader reader = new MapReader("resources/levels/testMap4.txt");
 		IGrid<Character> rawGrid = reader.read();
 		BDMap map = new BDMap(rawGrid, "../../../../sprites/background/back_cave.png");
 		BoulderDashGUI.run(map);
@@ -25,5 +25,6 @@ public class Main {
 	//TODO: Add more levels
 	//TODO: Add AI
 	//TODO: Add Level creator?
+	//TODO: Add Slime
 
 }

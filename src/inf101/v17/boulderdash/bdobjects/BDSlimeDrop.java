@@ -19,7 +19,7 @@ public class BDSlimeDrop extends AbstractBDFallingObject {
         return this.image;
     }
 
-    public void deSpawn(){
+    public void deSpawn() {
         owner.set(this.getX(), this.getY(), new BDEmpty(owner));
     }
 
@@ -27,20 +27,24 @@ public class BDSlimeDrop extends AbstractBDFallingObject {
     public void step() {
         // (Try to) fall if possible
         Position myPos = this.owner.getPosition(this);
-        IBDObject under = owner.get(myPos.getX(), myPos.getY() - 1);
 
-        //Since fall is void we have to see for ourself if it can fall
         try {
-            if (under instanceof IBDKillable) {
-                prepareMoveTo(Direction.SOUTH);
-            } else if (!(under instanceof BDEmpty)) {
-                this.deSpawn();
-            } else {
-                fall();
+            IBDObject under = owner.get(myPos.getX(), myPos.getY() - 1);
+            //Since fall is void we have to see for ourself if it can fall
+            try {
+                if (under instanceof IBDKillable) {
+                    prepareMoveTo(Direction.SOUTH);
+                } else if (!(under instanceof BDEmpty)) {
+                    this.deSpawn();
+                } else {
+                    fall();
+                }
+                super.step();
+            } catch (Exception e) {
+                System.err.println("SlimeDrop can't move correctly");
             }
-            super.step();
-        }catch (Exception e){
-            System.err.println("SlimeDrop can't move correctly");
+        } catch (IndexOutOfBoundsException e) {
+            this.deSpawn();
         }
     }
 

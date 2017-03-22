@@ -1,5 +1,6 @@
 package inf101.v17.boulderdash.bdobjects;
 
+import inf101.v17.boulderdash.Direction;
 import inf101.v17.boulderdash.Position;
 import inf101.v17.boulderdash.maps.BDMap;
 import javafx.scene.paint.Paint;
@@ -18,6 +19,10 @@ public class BDSlimeDrop extends AbstractBDFallingObject {
         return this.image;
     }
 
+    public void deSpawn(){
+        owner.set(this.getX(), this.getY(), new BDEmpty(owner));
+    }
+
     @Override
     public void step() {
         // (Try to) fall if possible
@@ -25,14 +30,18 @@ public class BDSlimeDrop extends AbstractBDFallingObject {
         IBDObject under = owner.get(myPos.getX(), myPos.getY() - 1);
 
         //Since fall is void we have to see for ourself if it can fall
-        if(under instanceof BDPlayer){
-            this.owner.getPlayer().kill();
-        }else if (!(under instanceof BDEmpty)) {
-            owner.set(this.getX(), this.getY(), new BDEmpty(owner));
-        } else {
-            fall();
+        try {
+            if (under instanceof IBDKillable) {
+                prepareMoveTo(Direction.SOUTH);
+            } else if (!(under instanceof BDEmpty)) {
+                this.deSpawn();
+            } else {
+                fall();
+            }
+            super.step();
+        }catch (Exception e){
+            System.err.println("SlimeDrop can't move correctly");
         }
-        super.step();
     }
 
 }

@@ -41,8 +41,8 @@ public class FallingTest {
 		grid.set(0, 2, 'p');
 		grid.set(0, 0, '*');
 		map = new BDMap(grid);
-		
-		
+
+
 		checkFall(new Position(0, 4));
 		checkFall(new Position(0, 3));
 		checkFall(new Position(0, 2));

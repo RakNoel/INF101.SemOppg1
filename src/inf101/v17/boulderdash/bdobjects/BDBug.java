@@ -151,9 +151,16 @@ public class BDBug extends AbstractBDKillingObject implements IBDKillable {
         // If a bug is killed it turns into a set of diamonds. Find the
         // DEATH_DIAMONDS nearest
         // empty positions in the map and fill them with diamonds.
-        Collection<Position> toDiamonds = owner.getNearestEmpty(owner.getPosition(this), DEATH_DIAMONDS);
-        for (Position p : toDiamonds) {
-            owner.set(p.getX(), p.getY(), new BDDiamond(owner));
+
+        try {
+            Collection<Position> toDiamonds = owner.getNearestEmpty(owner.getPosition(this), DEATH_DIAMONDS);
+            for (Position p : toDiamonds) {
+                owner.set(p.getX(), p.getY(), new BDDiamond(owner));
+            }
+        }catch (IllegalArgumentException e){
+            System.err.println("Not enough space to spawn monster diams");
+            owner.set(this.getX(), this.getY(), new BDDiamond(owner));
+            super.step();
         }
     }
 

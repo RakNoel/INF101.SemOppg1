@@ -10,6 +10,8 @@ av et open-source programm:
 * <a href='http://opengameart.org/content/hand-painted-texture-sandstone'>Sand</a> heavy resize
 * <a href='http://opengameart.org/content/forest-scene-items-animated-slimeexp-orbs'>Rock</a> small resize
 * <a href='http://opengameart.org/content/basic-map-32x32-by-silver-iv'>Door</a> no changes
+* <a href='http://opengameart.org/content/slime-1'>Slime Spawner</a> it's my uppload...
+* <a href='http://opengameart.org/content/slime-1'>Slime Drop</a> same as above...
 
 ###Backgrounds:
 * <a href='http://opengameart.org/content/seamless-cave-background'>Blue cave</a> no changes

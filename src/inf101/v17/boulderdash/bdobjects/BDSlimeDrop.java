@@ -6,7 +6,7 @@ import inf101.v17.boulderdash.maps.BDMap;
 import javafx.scene.paint.Paint;
 
 //Created by RakNoel, 22.03.2017.
-public class BDSlimeDrop extends AbstractBDFallingObject {
+public class BDSlimeDrop extends AbstractBDFallingObject implements IBDKillable{
 
     private Paint image;
 
@@ -15,12 +15,9 @@ public class BDSlimeDrop extends AbstractBDFallingObject {
         this.image = owner.getSprite(5, 0);
     }
 
+    @Override
     public Paint getColor() {
         return this.image;
-    }
-
-    public void deSpawn() {
-        owner.set(this.getX(), this.getY(), new BDEmpty(owner));
     }
 
     @Override
@@ -35,7 +32,7 @@ public class BDSlimeDrop extends AbstractBDFallingObject {
                 if (under instanceof IBDKillable) {
                     prepareMoveTo(Direction.SOUTH);
                 } else if (!(under instanceof BDEmpty)) {
-                    this.deSpawn();
+                    this.kill();
                 } else {
                     fall();
                 }
@@ -44,8 +41,12 @@ public class BDSlimeDrop extends AbstractBDFallingObject {
                 System.err.println("SlimeDrop can't move correctly");
             }
         } catch (IndexOutOfBoundsException e) {
-            this.deSpawn();
+            this.kill();
         }
     }
 
+    @Override
+    public void kill(){
+        owner.set(this.getX(), this.getY(), new BDEmpty(owner));
+    }
 }

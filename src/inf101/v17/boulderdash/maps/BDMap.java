@@ -26,6 +26,7 @@ public class BDMap {
     protected final int spriteHeight = 35;
     protected final int spriteBuffer = 2;
     protected final int totalSprites = 41;
+
     /**
      * Reads and stores sprites for the textures.
      */

@@ -9,7 +9,8 @@ import inf101.v17.datastructures.MyGrid;
 import javafx.scene.input.KeyCode;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 //Created by RakNoel, 16.03.2017.
 public class PlayerTest {
@@ -101,63 +102,52 @@ public class PlayerTest {
     }
 
     @Test
-    public void playerDoesNotEatRock() {
-        IGrid<Character> grid = new MyGrid<>(9, 9, ' ');
-        grid.set(3, 3, 'r');
-        grid.set(2, 3, 'p');
-        grid.set(3, 2, '*');
-        grid.set(2, 2, 'r');
-        grid.set(2, 1, '*');
-        grid.set(4, 3, '*');
+    public void playerCantMoveTrough() {
+        playerCantMoveTrough('*');
+        playerCantMoveTrough('r');
+    }
+
+    private void playerCantMoveTrough(char blockage) {
+        IGrid<Character> grid = new MyGrid<>(9, 9, blockage);
+        grid.set(3, 3, 'p');
         map = new BDMap(grid);
 
         BDPlayer player = map.getPlayer();
 
         player.keyPressed(KeyCode.RIGHT);
         map.step();
+        assertTrue(map.get(3, 3) instanceof BDPlayer);
+
         player.keyPressed(KeyCode.DOWN);
         map.step();
+        assertTrue(map.get(3, 3) instanceof BDPlayer);
+
         player.keyPressed(KeyCode.UP);
         map.step();
+        assertTrue(map.get(3, 3) instanceof BDPlayer);
+
         player.keyPressed(KeyCode.LEFT);
         map.step();
-
-        for (int i = 0; i < 100; i++)
-            map.step();
-
-        assertTrue(map.get(3, 3) instanceof BDRock);
-        assertFalse(map.get(3, 3) instanceof BDPlayer);
-
-    }
-
-    @Test
-    public void playerCantMoveTrough() {
-        playerCantMoveTrough('*');
-        playerCantMoveTrough('r');
-
-    }
-
-    private void playerCantMoveTrough(char blockage) {
-        //TODO
-        fail();
+        assertTrue(map.get(3, 3) instanceof BDPlayer);
     }
 
     @Test
     public void playerPicksUpDiamond() {
-        //TODO
-        fail();
-    }
+        IGrid<Character> grid = new MyGrid<>(9, 9, 'd');
+        grid.set(3, 3, 'p');
+        map = new BDMap(grid);
 
-    @Test
-    public void playerCantMoveWhenDead() {
-        //TODO
-        fail();
-    }
+        BDPlayer player = map.getPlayer();
 
-    @Test
-    public void playerWinOnDoor() {
-        //TODO
-        fail();
+        player.keyPressed(KeyCode.UP);
+        map.step();
+        player.keyPressed(KeyCode.UP);
+        map.step();
+
+        assertTrue(map.get(3, 3) instanceof BDEmpty);
+        assertTrue(map.get(3, 4) instanceof BDEmpty);
+        assertTrue(map.get(3, 5) instanceof BDPlayer);
+        assertTrue(player.numberOfDiamonds() == 2);
     }
 
 

@@ -26,6 +26,7 @@ public class BDMap {
     protected final int spriteHeight = 35;
     protected final int spriteBuffer = 2;
     protected final int totalSprites = 41;
+
     /**
      * Reads and stores sprites for the textures.
      */
@@ -222,6 +223,10 @@ public class BDMap {
                 return new BDRock(this);
             case 'q':
                 return new BDDoor(this);
+            case 'S':
+                return new BDSlimeSpawn(this);
+            case 's':
+                return new BDSlimeDrop(this);
             case 'b':
                 try {
                     return new BDBug(this, new Position(x, y), 1, 10);
@@ -407,5 +412,9 @@ public class BDMap {
 
     public Paint getSprite(int x, int y) {
         return this.sprites.get((y*7) + x);
+    }
+
+    public Paint getSprite(int x) {
+        return this.sprites.get(x);
     }
 }

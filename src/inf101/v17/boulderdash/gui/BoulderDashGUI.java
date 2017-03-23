@@ -12,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
@@ -34,6 +35,7 @@ public class BoulderDashGUI extends Application implements EventHandler<KeyEvent
     private BDMapComponent mapComponent;
     private Text message;
     private AnimationTimer timer;
+    private Paint background;
 
     public BoulderDashGUI() {
         this.map = theMap;
@@ -59,7 +61,7 @@ public class BoulderDashGUI extends Application implements EventHandler<KeyEvent
         Group root = new Group();
         double width = Math.min(primaryScreenBounds.getWidth() - 40, map.getWidth() * 200);
         double height = Math.min(primaryScreenBounds.getHeight() - 100, map.getWidth() * 200);
-        Scene scene = new Scene(root, width, height, map.getBackground());
+        Scene scene = new Scene(root, width, height, this.background);
         stage.setScene(scene);
 
         message = new Text(10, 0, "");

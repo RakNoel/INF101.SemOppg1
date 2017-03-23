@@ -5,7 +5,6 @@ import inf101.v17.boulderdash.IllegalMoveException;
 import inf101.v17.boulderdash.Position;
 import inf101.v17.boulderdash.gui.spriteReader;
 import inf101.v17.boulderdash.maps.BDMap;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 import java.io.InputStream;
@@ -100,17 +99,10 @@ public class BDBug extends AbstractBDKillingObject implements IBDKillable {
 
         Random rnd = new Random();
         int rand = rnd.nextInt(7);
-        try {
-            InputStream reAsStr = getClass().getResourceAsStream("../../../../sprites/bug/bugSheet.png");
-            this.SPR = new spriteReader(reAsStr, 35, 35, 2);
+        InputStream reAsStr = getClass().getResourceAsStream("../../../../sprites/bug/bugSheet.png");
+        this.SPR = new spriteReader(reAsStr, 35, 35, 2);
 
-            image = SPR.getSprite(rand, 0);
-
-
-        } catch (Exception e) {
-            System.err.print("Can't find bug sprites");
-            image = Color.GREEN;
-        }
+        image = SPR.getSprite(rand, 0);
     }
 
     @Override
@@ -158,7 +150,7 @@ public class BDBug extends AbstractBDKillingObject implements IBDKillable {
             for (Position p : toDiamonds) {
                 owner.set(p.getX(), p.getY(), new BDDiamond(owner));
             }
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.err.println("Not enough space to spawn monster diams");
             owner.set(this.getX(), this.getY(), new BDDiamond(owner));
             super.step();

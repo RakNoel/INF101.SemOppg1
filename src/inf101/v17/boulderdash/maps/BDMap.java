@@ -77,40 +77,23 @@ public class BDMap {
         hashMap = new HashMap<IBDObject, Position>();
         this.player = new BDPlayer(this);
 
+
         this.sprites = new ArrayList<Paint>(totalSprites);
+        InputStream reAsStr = getClass().getResourceAsStream("../../../../sprites/textures/textures.png");
+        this.spriteReader = new spriteReader(reAsStr, spriteHeight, spriteWidth, spriteBuffer);
+
+
         for (int y = 0; y < Math.sqrt(totalSprites); y++)
             for (int x = 0; x < Math.sqrt(totalSprites); x++)
-                sprites.add(Color.BLACK);
+                sprites.add(spriteReader.getSprite(x, y));
 
         fillGrid(map);
-        this.seconds = Math.max(800, this.getHeight() * this.getWidth());
+        this.seconds = 8 * Math.min(800, this.getHeight() * this.getWidth());
     }
 
-    public BDMap(IGrid<Character> map, String background) {
-        grid = new MyGrid<IBDObject>(map.getWidth(), map.getHeight(), null);
-        hashMap = new HashMap<IBDObject, Position>();
-        this.player = new BDPlayer(this);
-
-
-        this.sprites = new ArrayList<Paint>(totalSprites);
-        try {
-            InputStream reAsStr = getClass().getResourceAsStream("../../../../sprites/textures/textures.png");
-            this.spriteReader = new spriteReader(reAsStr, spriteHeight, spriteWidth, spriteBuffer);
-
-
-            for (int y = 0; y < Math.sqrt(totalSprites); y++)
-                for (int x = 0; x < Math.sqrt(totalSprites); x++)
-                    sprites.add(spriteReader.getSprite(x, y));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-
-
-        fillGrid(map);
-        this.seconds = 8*Math.min(800, this.getHeight() * this.getWidth());
-        this.background = background;
+    public void addBackground(String background) {
+        if (background != null && !background.equals(""))
+            this.background = background;
     }
 
     /**
@@ -155,7 +138,7 @@ public class BDMap {
      * Returns seconds left
      */
     public int getTimeLeft() {
-        return this.seconds/8;
+        return this.seconds / 8;
     }
 
     /**
@@ -271,7 +254,7 @@ public class BDMap {
         return grid.getHeight();
     }
 
-    public int getPlayerPoints(){
+    public int getPlayerPoints() {
         return this.playerPoints;
     }
 
@@ -338,7 +321,7 @@ public class BDMap {
         return grid.getWidth();
     }
 
-    public boolean getFinished(){
+    public boolean getFinished() {
         return this.finished;
     }
 
@@ -389,11 +372,11 @@ public class BDMap {
                 if (this.get(x, y) instanceof BDBug)
                     monsterLeft++;
 
-        int points = diams*100;
+        int points = diams * 100;
         points += timeLeft;
-        points -= monsterLeft*100;
+        points -= monsterLeft * 100;
 
-        if(points < 0)
+        if (points < 0)
             points = 0;
 
         this.playerPoints = points;
@@ -411,7 +394,7 @@ public class BDMap {
     }
 
     public Paint getSprite(int x, int y) {
-        return this.sprites.get((y*7) + x);
+        return this.sprites.get((y * 7) + x);
     }
 
     public Paint getSprite(int x) {

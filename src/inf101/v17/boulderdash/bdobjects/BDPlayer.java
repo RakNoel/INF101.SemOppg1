@@ -3,7 +3,7 @@ package inf101.v17.boulderdash.bdobjects;
 import inf101.v17.boulderdash.Direction;
 import inf101.v17.boulderdash.IllegalMoveException;
 import inf101.v17.boulderdash.Position;
-import inf101.v17.boulderdash.gui.spriteReader;
+import inf101.v17.boulderdash.gui.SpriteReader;
 import inf101.v17.boulderdash.maps.BDMap;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -49,12 +49,12 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
      */
     private ArrayList<Paint> images;
 
-    private spriteReader SPR;
+    private SpriteReader SPR;
 
     public BDPlayer(BDMap owner) {
         super(owner);
         InputStream reAsStr = getClass().getResourceAsStream("../../../../sprites/player/playerSheet.png");
-        this.SPR = new spriteReader(reAsStr, 35, 35, 2);
+        this.SPR = new SpriteReader(reAsStr, 35, 35, 2);
 
         images = new ArrayList<>();
         images.add(Color.BLUE);

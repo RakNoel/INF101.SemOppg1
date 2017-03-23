@@ -3,7 +3,7 @@ package inf101.v17.boulderdash.bdobjects;
 import inf101.v17.boulderdash.Direction;
 import inf101.v17.boulderdash.IllegalMoveException;
 import inf101.v17.boulderdash.Position;
-import inf101.v17.boulderdash.gui.spriteReader;
+import inf101.v17.boulderdash.gui.SpriteReader;
 import inf101.v17.boulderdash.maps.BDMap;
 import javafx.scene.paint.Paint;
 
@@ -30,7 +30,7 @@ public class BDBug extends AbstractBDKillingObject implements IBDKillable {
      */
     protected static final int MIN_PAUSE = 4;
 
-    protected spriteReader SPR;
+    protected SpriteReader SPR;
 
     /**
      * The position where the bug spawns when the program is loaded.
@@ -100,7 +100,7 @@ public class BDBug extends AbstractBDKillingObject implements IBDKillable {
         Random rnd = new Random();
         int rand = rnd.nextInt(7);
         InputStream reAsStr = getClass().getResourceAsStream("../../../../sprites/bug/bugSheet.png");
-        this.SPR = new spriteReader(reAsStr, 35, 35, 2);
+        this.SPR = new SpriteReader(reAsStr, 35, 35, 2);
 
         image = SPR.getSprite(rand, 0);
     }

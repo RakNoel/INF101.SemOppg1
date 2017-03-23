@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 //Created by RakNoel, 22.03.2017.
-public class slimeTest {
+public class SlimeTest {
 
     private BDMap map;
 

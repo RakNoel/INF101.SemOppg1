@@ -11,13 +11,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 //Created by RakNoel, 20.03.2017.
-public class spriteReader {
+public class SpriteReader {
     private BufferedImage bImage;
     private int spriteHeight;
     private int spriteWidth;
     private int spriteBuffer;
 
-    public spriteReader(InputStream inStream, int spriteHeight, int spriteWidth, int spriteBuffer){
+    public SpriteReader(InputStream inStream, int spriteHeight, int spriteWidth, int spriteBuffer){
         try {
             this.bImage = ImageIO.read(inStream);
         }catch (IOException e){

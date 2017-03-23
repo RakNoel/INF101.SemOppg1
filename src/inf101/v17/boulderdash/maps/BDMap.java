@@ -4,7 +4,7 @@ import inf101.v17.boulderdash.Direction;
 import inf101.v17.boulderdash.IllegalMoveException;
 import inf101.v17.boulderdash.Position;
 import inf101.v17.boulderdash.bdobjects.*;
-import inf101.v17.boulderdash.gui.spriteReader;
+import inf101.v17.boulderdash.gui.SpriteReader;
 import inf101.v17.datastructures.IGrid;
 import inf101.v17.datastructures.MyGrid;
 import javafx.scene.image.Image;
@@ -30,7 +30,7 @@ public class BDMap {
     /**
      * Reads and stores sprites for the textures.
      */
-    protected spriteReader spriteReader;
+    protected SpriteReader SpriteReader;
     protected ArrayList<Paint> sprites;
 
     protected int playerPoints = 0;
@@ -80,12 +80,12 @@ public class BDMap {
 
         this.sprites = new ArrayList<Paint>(totalSprites);
         InputStream reAsStr = getClass().getResourceAsStream("../../../../sprites/textures/textures.png");
-        this.spriteReader = new spriteReader(reAsStr, spriteHeight, spriteWidth, spriteBuffer);
+        this.SpriteReader = new SpriteReader(reAsStr, spriteHeight, spriteWidth, spriteBuffer);
 
 
         for (int y = 0; y < Math.sqrt(totalSprites); y++)
             for (int x = 0; x < Math.sqrt(totalSprites); x++)
-                sprites.add(spriteReader.getSprite(x, y));
+                sprites.add(SpriteReader.getSprite(x, y));
 
         fillGrid(map);
         this.seconds = 8 * Math.min(800, this.getHeight() * this.getWidth());

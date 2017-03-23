@@ -20,7 +20,7 @@ public class SpriteReader {
     public SpriteReader(InputStream inStream, int spriteHeight, int spriteWidth, int spriteBuffer){
         try {
             this.bImage = ImageIO.read(inStream);
-        }catch (IOException e){
+        }catch (IOException | IllegalArgumentException e){
             System.err.println("Finner ikke sprite");
             this.bImage = null;
         }

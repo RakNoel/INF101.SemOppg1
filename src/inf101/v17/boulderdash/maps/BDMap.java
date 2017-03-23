@@ -66,11 +66,10 @@ public class BDMap {
      * Main constructor of this class.
      *
      * @param map    A grid of characters, where each character represents a type
-     *               of {@link #IBDObject}: ' ' - {@link #BDEmpty}, '*' -
+     *               of {@link IBDObject}: ' ' - {@link #BDEmpty}, '*' -
      *               {@link BDWall}, '#' - {@link #BDSand}, 'd' -
      *               {@link #BDDiamond}, 'b' - {@link BDBug}, 'r' -
      *               {@link #BDRock}, 'p' - {@link #BDPlayer}
-     * @param player The player object has to be initialized separately.
      */
     public BDMap(IGrid<Character> map) {
         grid = new MyGrid<IBDObject>(map.getWidth(), map.getHeight(), null);
@@ -210,6 +209,8 @@ public class BDMap {
                 return new BDSlimeSpawn(this);
             case 's':
                 return new BDSlimeDrop(this);
+            case 'A':
+                return new BDAIPlayer(this);
             case 'b':
                 try {
                     return new BDBug(this, new Position(x, y), 1, 10);

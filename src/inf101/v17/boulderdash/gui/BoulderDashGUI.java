@@ -61,7 +61,7 @@ public class BoulderDashGUI extends Application implements EventHandler<KeyEvent
         Group root = new Group();
         double width = Math.min(primaryScreenBounds.getWidth() - 40, map.getWidth() * 200);
         double height = Math.min(primaryScreenBounds.getHeight() - 100, map.getWidth() * 200);
-        Scene scene = new Scene(root, width, height, this.background);
+        Scene scene = new Scene(root, width, height, map.getBackground());
         stage.setScene(scene);
 
         message = new Text(10, 0, "");

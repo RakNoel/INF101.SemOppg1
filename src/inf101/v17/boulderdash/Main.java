@@ -26,5 +26,6 @@ public class Main {
 	//TODO: Add more levels
 	//TODO: Add AI
 	//TODO: Add Level creator?
+	//TODO: Add spikes
 
 }

@@ -358,8 +358,6 @@ public class BDMap {
 
         if (this.seconds > 1)
             this.seconds--;
-        else
-            this.player.kill();
     }
 
     public void finish() {

@@ -51,8 +51,8 @@ public class FallingTest {
 
 	@Test
 	public void restingDoesntKill(){
-		restingDoesntKill('r');
 		restingDoesntKill('d');
+		restingDoesntKill('r');
 	}
 	private void restingDoesntKill(char test) {
 		// diamond on top of player doesn't kill player

@@ -67,7 +67,6 @@ public abstract class AbstractBDFallingObject extends AbstractBDKillingObject {
                 } else {
                     // start falling if tile below is empty
                     falling = under instanceof BDEmpty;
-
                     fallingTimeWaited = 1;
                 }
             } catch (IllegalMoveException e) {
@@ -111,9 +110,9 @@ public abstract class AbstractBDFallingObject extends AbstractBDKillingObject {
                     else
                         this.prepareMoveTo(Direction.WEST);
                 } else if (fallLeft) {
-                    this.prepareMoveTo(Direction.EAST);
-                } else if (fallRight) {
                     this.prepareMoveTo(Direction.WEST);
+                } else if (fallRight) {
+                    this.prepareMoveTo(Direction.EAST);
                 }
             }
         } catch (IllegalMoveException e) {

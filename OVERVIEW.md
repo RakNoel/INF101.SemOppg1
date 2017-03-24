@@ -20,6 +20,9 @@ av et open-source programm:
 ###Sound:
 * All sounds generated with dr.petters <a href='http://www.drpetter.se/project_sfxr.html'>project_sfxr!</a>
 
+###Music:
+* <a href='http://opengameart.org/content/spelunkers-anthem-cave-theme'>Background music</a>
+
 ##Forståelse av programmet før programmering:
 Programmet var meget vanskelig å sette seg inn i til å starte med. Førte egentlig til at jeg selv
 måtte leke rundt for å prøve på de forskjellige filene. Men jeg merket meg en del forsjellige ting:

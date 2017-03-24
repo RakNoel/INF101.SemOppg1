@@ -17,14 +17,16 @@ public class Main {
 		IGrid<Character> rawGrid = reader.read();
 		BDMap map = new BDMap(rawGrid);
 		map.addBackground("../../../../sprites/background/back_cave.png");
+
 		BoulderDashGUI.run(map);
+
+
 	}
 
-	//TODO: Add fancy rocks
 	//TODO: Add music!
 	//TODO: Add sound!
+	//TODO: Add spikes
 	//TODO: Add more levels
 	//TODO: Add Level creator?
-	//TODO: Add spikes
 
 }

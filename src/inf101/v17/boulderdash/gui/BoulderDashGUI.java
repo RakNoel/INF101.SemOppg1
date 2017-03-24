@@ -11,12 +11,16 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 /**
  * The main class of the BoulderDash program. Sets up a simple gui of a given
@@ -99,6 +103,7 @@ public class BoulderDashGUI extends Application implements EventHandler<KeyEvent
 
         stage.addEventHandler(KeyEvent.KEY_PRESSED, this);
         timer.start();
+
         stage.show();
     }
 

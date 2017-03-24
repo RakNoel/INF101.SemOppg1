@@ -85,7 +85,7 @@ public class AIPlayerTest {
         map = new BDMap(rawGrid);
         assertFalse(map.getFinished());
 
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < 300; i++)
             map.step();
 
         assertTrue(map.getFinished());

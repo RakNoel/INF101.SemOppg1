@@ -1,12 +1,15 @@
 package inf101.v17.boulderdash.bdobjects.tests;
 
-import inf101.v17.boulderdash.bdobjects.*;
+import inf101.v17.boulderdash.bdobjects.BDAIPlayer;
+import inf101.v17.boulderdash.bdobjects.BDDiamond;
 import inf101.v17.boulderdash.maps.BDMap;
+import inf101.v17.boulderdash.maps.MapReader;
 import inf101.v17.datastructures.IGrid;
 import inf101.v17.datastructures.MyGrid;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 //Created by RakNoel, 23.03.2017.
 public class AIPlayerTest {
@@ -15,6 +18,21 @@ public class AIPlayerTest {
 
     @Test
     public void basicRouteSolve() {
+        IGrid<Character> grid = new MyGrid<>(7, 6, ' ');
+        grid.set(1, 4, 'A');
+        grid.set(5, 1, 'q');
+
+        map = new BDMap(grid);
+
+        for (int i = 0; i < 45; i++)
+            map.step();
+
+        assertTrue(map.getFinished());
+        assertFalse(map.get(1, 4) instanceof BDAIPlayer);
+    }
+
+    @Test
+    public void advancedRouteSolve() {
         IGrid<Character> grid = new MyGrid<>(7, 6, ' ');
         grid.set(1, 4, 'A');
         grid.set(2, 2, '*');
@@ -29,7 +47,7 @@ public class AIPlayerTest {
             map.step();
 
         assertTrue(map.getFinished());
-        assertFalse(map.get(1,4) instanceof BDAIPlayer);
+        assertFalse(map.get(1, 4) instanceof BDAIPlayer);
     }
 
     @Test
@@ -50,8 +68,27 @@ public class AIPlayerTest {
             map.step();
 
         assertTrue(map.getFinished());
-        assertFalse(map.get(1,4) instanceof BDAIPlayer);
-        assertFalse(map.get(1,1) instanceof BDDiamond);
-        assertFalse(map.get(4,4) instanceof BDDiamond);
+        assertFalse(map.get(1, 4) instanceof BDAIPlayer);
+        assertFalse(map.get(1, 1) instanceof BDDiamond);
+        assertFalse(map.get(4, 4) instanceof BDDiamond);
+    }
+
+    @Test
+    public void completesTestMaps(){
+        testMaps(1);
+        testMaps(2);
+        testMaps(3);
+    }
+    private void testMaps(int j) {
+        MapReader reader = new MapReader("resources/testLevels/testMap" + j + ".txt");
+        IGrid<Character> rawGrid = reader.read();
+
+        map = new BDMap(rawGrid);
+        assertFalse(map.getFinished());
+
+        for (int i = 0; i < 100; i++)
+            map.step();
+
+        assertTrue(map.getFinished());
     }
 }

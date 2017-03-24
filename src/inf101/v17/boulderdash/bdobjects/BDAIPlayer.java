@@ -49,8 +49,8 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
                 System.out.println("-----------------------------------");
                 Collections.reverse(holder);
 
-                for (Position p : holder)
-                    System.out.println(p);
+//                for (Position p : holder)
+//                    System.out.println(p);
                 break;
             }
 
@@ -98,17 +98,30 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
     public void step() {
         if (--wait <= 0) {
             if (holder.size() > 0) {
-                int x = holder.get(0).getX();
-                int y = holder.get(0).getY();
-                int thisx = getX();
+                Position rPos = holder.get(0);
+                int x = rPos.getX();
+                int y = rPos.getY();
+                int thisx = this.getX();
+
+                //Check danger!
+                if(this.owner.get(rPos.getX(), rPos.getY()+1) instanceof AbstractBDKillingObject
+                        || this.owner.get(rPos) instanceof AbstractBDKillingObject){
+                    wait = 4;
+                    System.out.println("DANGER");
+                }
+
                 if (thisx < x) {
                     this.keyPressed(KeyCode.RIGHT);
+//                    this.askedToGo = Direction.EAST;
                 } else if (thisx > x) {
                     this.keyPressed(KeyCode.LEFT);
+//                    this.askedToGo = Direction.WEST;
                 } else if (this.getY() > y) {
                     this.keyPressed(KeyCode.DOWN);
+//                    this.askedToGo = Direction.SOUTH;
                 } else {
                     this.keyPressed(KeyCode.UP);
+//                    this.askedToGo = Direction.NORTH;
                 }
                 this.holder.remove(0);
             } else {

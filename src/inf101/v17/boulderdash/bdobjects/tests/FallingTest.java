@@ -205,4 +205,14 @@ public class FallingTest {
 
 		assertFalse(map.get(0,0) instanceof BDEmpty);
 	}
+
+	@Test
+	public void fancyFall(){
+		fancyFall('d');
+		fancyFall('r');
+	}
+
+	public void fancyFall(char test){
+		//TODO;
+	}
 }

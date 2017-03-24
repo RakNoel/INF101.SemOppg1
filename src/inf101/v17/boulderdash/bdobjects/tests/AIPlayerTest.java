@@ -77,7 +77,6 @@ public class AIPlayerTest {
     public void completesTestMaps(){
         testMaps(1);
         testMaps(2);
-        testMaps(3);
     }
     private void testMaps(int j) {
         MapReader reader = new MapReader("resources/testLevels/testMap" + j + ".txt");
@@ -86,7 +85,7 @@ public class AIPlayerTest {
         map = new BDMap(rawGrid);
         assertFalse(map.getFinished());
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 200; i++)
             map.step();
 
         assertTrue(map.getFinished());

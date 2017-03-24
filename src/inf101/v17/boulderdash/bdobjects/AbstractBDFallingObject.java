@@ -74,7 +74,7 @@ public abstract class AbstractBDFallingObject extends AbstractBDKillingObject {
                 // This should never happen.
                 System.out.println(e);
                 System.exit(1);
-            } catch (IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 //Ignore
             }
         }
@@ -87,30 +87,40 @@ public abstract class AbstractBDFallingObject extends AbstractBDKillingObject {
 
             if (under instanceof AbstractBDFallingObject
                     || under instanceof BDWall) {
-                IBDObject chk1 = owner.get(under.getX()-1,under.getY());
-                IBDObject chk2 = owner.get(under.getX()-1,this.getY());
-                IBDObject chk3 = owner.get(under.getX()+1,under.getY());
-                IBDObject chk4 = owner.get(under.getX()+1,this.getY());
+                boolean fallRight = false;
+                boolean fallLeft = false;
+                try {
+                    IBDObject chk1 = owner.get(under.getX() - 1, under.getY());
+                    IBDObject chk2 = owner.get(under.getX() - 1, this.getY());
+                    fallLeft = (chk1 instanceof BDEmpty && chk2 instanceof BDEmpty);
+                } catch (IndexOutOfBoundsException e) {
+                    //Ignore
+                }
 
-                //Possible fall directions
-                boolean fallLeft = (chk1 instanceof BDEmpty && chk2 instanceof BDEmpty);
-                boolean fallRight = (chk3 instanceof BDEmpty && chk4 instanceof BDEmpty);
+                try {
+                    IBDObject chk3 = owner.get(under.getX() + 1, under.getY());
+                    IBDObject chk4 = owner.get(under.getX() + 1, this.getY());
+                    fallRight = (chk3 instanceof BDEmpty && chk4 instanceof BDEmpty);
+                } catch (IndexOutOfBoundsException e) {
+                    //Ignore
+                }
 
-                if(fallLeft && fallRight){
-                    if(new Random().nextBoolean())
+                if (fallLeft && fallRight) {
+                    if (new Random().nextBoolean())
                         this.prepareMoveTo(Direction.EAST);
                     else
                         this.prepareMoveTo(Direction.WEST);
-                }else if(fallLeft){
+                } else if (fallLeft) {
                     this.prepareMoveTo(Direction.EAST);
-                }else if(fallRight){
+                } else if (fallRight) {
                     this.prepareMoveTo(Direction.WEST);
                 }
             }
-        }catch (IllegalMoveException e){
+        } catch (IllegalMoveException e) {
             System.err.println("Bad move");
+        } catch (IndexOutOfBoundsException e) {
+            //Ignore
         }
-
 
         // (Try to) fall if possible
         fall();

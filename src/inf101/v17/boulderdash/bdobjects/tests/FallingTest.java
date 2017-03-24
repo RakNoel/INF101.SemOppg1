@@ -136,11 +136,11 @@ public class FallingTest {
 		IGrid<Character> grid = new MyGrid<>(3, 5, ' ');
 		grid.set(0, 4, 'r');
 		grid.set(2, 4, 'r');
-		grid.set(0, 3, '*');
-		grid.set(2, 3, '*');
+		grid.set(0, 3, '#');
+		grid.set(2, 3, '#');
 
 		grid.set(1, 1, 'p');
-		grid.set(1, 0, '*');
+		grid.set(1, 0, '#');
 		map = new BDMap(grid);
 
 		assertTrue(map.get(0,4) instanceof BDRock);
@@ -160,7 +160,7 @@ public class FallingTest {
 		for (int i = 0; i < 16; i++)
 			map.step();
 
-		assertTrue(map.get(1,2) instanceof BDRock);
+		assertFalse(map.get(0,4) instanceof BDRock);
 	}
 
 	@Test
@@ -168,11 +168,11 @@ public class FallingTest {
 		IGrid<Character> grid = new MyGrid<>(3, 5, ' ');
 		grid.set(0, 4, 'r');
 		grid.set(2, 4, 'r');
-		grid.set(0, 3, '*');
-		grid.set(2, 3, '*');
+		grid.set(0, 3, '#');
+		grid.set(2, 3, '#');
 
 		grid.set(1, 1, 'p');
-		grid.set(1, 0, '*');
+		grid.set(1, 0, '#');
 		map = new BDMap(grid);
 
 		assertTrue(map.get(0,4) instanceof BDRock);
@@ -211,8 +211,18 @@ public class FallingTest {
 		fancyFall('d');
 		fancyFall('r');
 	}
+	private void fancyFall(char test){
+		IGrid<Character> grid = new MyGrid<>(3, 3, ' ');
+		grid.set(1, 1, test);
+		grid.set(1, 0, '*');
+		map = new BDMap(grid);
 
-	public void fancyFall(char test){
-		//TODO;
+		for (int i = 0; i < 100; i++)
+			map.step();
+
+		assertFalse(map.get(0,1) instanceof AbstractBDFallingObject);
+		assertTrue(map.get(0,0) instanceof AbstractBDFallingObject
+				|| map.get(2,0) instanceof AbstractBDFallingObject);
+
 	}
 }

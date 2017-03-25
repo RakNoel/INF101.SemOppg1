@@ -144,8 +144,6 @@ public class PlayerTest {
         player.keyPressed(KeyCode.UP);
         map.step();
 
-        assertTrue(map.get(3, 3) instanceof BDEmpty);
-        assertTrue(map.get(3, 4) instanceof BDEmpty);
         assertTrue(map.get(3, 5) instanceof BDPlayer);
         assertTrue(player.numberOfDiamonds() == 2);
     }

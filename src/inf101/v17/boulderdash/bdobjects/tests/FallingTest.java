@@ -76,7 +76,7 @@ public class FallingTest {
 	public void fallingTest(char test) {
 		IGrid<Character> grid = new MyGrid<>(2, 5, ' ');
 		grid.set(0, 4, test);
-		grid.set(0, 0, '*');
+		grid.set(0, 0, '#');
 		map = new BDMap(grid);
 		IBDObject obj = map.get(0, 4);
 		assertFalse(obj instanceof BDEmpty);

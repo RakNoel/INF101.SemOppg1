@@ -84,8 +84,8 @@ public class PlayerTest {
         IGrid<Character> grid = new MyGrid<>(9, 9, ' ');
         grid.set(3, 3, 'r');
         grid.set(2, 3, 'p');
-        grid.set(3, 2, '*');
-        grid.set(2, 2, '*');
+        grid.set(3, 2, '#');
+        grid.set(2, 2, '#');
         map = new BDMap(grid);
 
         BDPlayer player = map.getPlayer();

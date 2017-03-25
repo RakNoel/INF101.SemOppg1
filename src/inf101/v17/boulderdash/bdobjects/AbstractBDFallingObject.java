@@ -116,7 +116,7 @@ public abstract class AbstractBDFallingObject extends AbstractBDKillingObject {
                 }
             }
         } catch (IllegalMoveException e) {
-            System.err.println("Bad move");
+            //Ignore
         } catch (IndexOutOfBoundsException e) {
             //Ignore
         }

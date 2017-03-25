@@ -121,7 +121,9 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
                 meCanGo = ((BDRock) obj).push(this.askedToGo);
             } else if (obj instanceof BDDiamond) {
                 this.diamondCnt++;
-            } else if (obj instanceof BDBug) {
+            } else if (obj instanceof BDBug
+                    || obj instanceof BDSlimeDrop
+                    || obj instanceof BDSlimeSpawn) {
                 this.kill();
                 meCanGo = false;
             } else if (obj instanceof BDDoor) {

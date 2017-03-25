@@ -10,45 +10,63 @@ import java.util.*;
 //Created by RakNoel, 23.03.2017.
 public class BDAIPlayer extends BDPlayer implements IBDKillable {
 
-    private ArrayList<Position> holder;
+    private ArrayList<Position> gotoPositions;
     private ArrayList<Position> danger;
-    private ArrayList<Position> used;
-    private Queue<Position> testQueue;
-    private HashMap<Position, Position> hashMap;
+    private ArrayList<Position> usedNodes;
+    private Queue<Position> processingQueue;
+    private HashMap<Position, Position> pointerMap;
     private int wait = 2;
+    private boolean notFoundPath;
 
     public BDAIPlayer(BDMap owner) {
         super(owner);
 
-        used = new ArrayList<>();
-        hashMap = new HashMap<>();
-        testQueue = new LinkedList<>();
-        holder = new ArrayList<>();
+        usedNodes = new ArrayList<>();
+        pointerMap = new HashMap<>();
+        processingQueue = new LinkedList<>();
+        gotoPositions = new ArrayList<>();
         danger = new ArrayList<>();
+        notFoundPath = false;
     }
 
+    /**
+     * TLDR;
+     * A heavy breadth first search algorithm that finds the first functional way to the nearest objective goal set,
+     * and adds it to the this.gotoPositions arrayList as a row of coordinates from null to goal. This algorithm will also
+     * avoid spending too long in dangerous tiles.
+     * <p>
+     * Explanation:
+     * This will find ALL possible routes that comes out in the breadth of possible outcomes and follows all nodes in
+     * a Queue. If we can go here, add to Queue, mark node as used, and make pointer in a hashMap; else discard.
+     * Now finally we will find the goal, so we retrace from final position with hashMap into the
+     * gotoPositions ArrayList and turn it backwards.
+     *
+     * @param obj The objective type you want to find a path to.
+     */
     private void findPath(IBDObject obj) {
-        hashMap.clear();
-        testQueue.clear();
-        holder.clear();
-        used.clear();
 
+        //Clear all the arrays so we don't go in circles
+        pointerMap.clear();
+        processingQueue.clear();
+        gotoPositions.clear();
+        usedNodes.clear();
+
+        //Get map, add nullPos to Queue and hashmap!
         BDMap bdmap = super.getMap();
-        testQueue.add(this.getPosition());
-        hashMap.put(this.getPosition(), null);
+        processingQueue.add(this.getPosition());
+        pointerMap.put(this.getPosition(), null);
 
-        while (!testQueue.isEmpty()) {
-            System.out.println("Queue: " + testQueue.size());
-            Position pos = testQueue.remove();
+        while (!processingQueue.isEmpty()) {
+            Position pos = processingQueue.remove();
 
             if (bdmap.get(pos).getClass().equals(obj.getClass())) {
                 //DONE, now retrace path
-                while (hashMap.get(pos) != null) {
-                    holder.add(pos);
-                    pos = hashMap.get(pos);
+                while (pointerMap.get(pos) != null) {
+                    gotoPositions.add(pos);
+                    pos = pointerMap.get(pos);
                 }
-                //then reverse
-                Collections.reverse(holder);
+                //then reverse array
+                Collections.reverse(gotoPositions);
                 break;
             }
 
@@ -59,25 +77,21 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
             tests.add(pos.moveDirection(Direction.WEST));
             tests.add(pos.moveDirection(Direction.NORTH));
 
-            for (Position i : tests)
-                System.out.println(i.toString());
-
             for (int i = 0; i < tests.size(); i++) {
                 try {
                     Position thisTest = tests.get(i);
-                    if (!used.contains(thisTest)) {
+                    if (!usedNodes.contains(thisTest)) {
                         //Add to que if possible route
                         if (bdmap.get(thisTest) instanceof BDEmpty
                                 || bdmap.get(thisTest) instanceof BDSand
                                 || bdmap.get(thisTest).getClass().equals(obj.getClass())) {
                             //Blocks up/down movement in dangerous tiles
-                            if (!danger.contains(pos) || (danger.contains(pos) && i%2 == 0)) {
-                                testQueue.add(thisTest);
-                                hashMap.put(thisTest, pos);
-                                used.add(thisTest);
-                            }else{
-                                //BLocked by danger
-                                System.out.println("Blocked by danger");
+                            if (!danger.contains(pos) || (danger.contains(pos) && i % 2 == 0) || notFoundPath) {
+                                processingQueue.add(thisTest);
+                                pointerMap.put(thisTest, pos);
+                                usedNodes.add(thisTest);
+                            } else {
+                                //Blocked by danger
                             }
                         }
                     }
@@ -86,7 +100,9 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
                 }
             }
         }
-        System.out.println("Queue empty and no path found");
+        notFoundPath = (gotoPositions.size() == 0);
+        if (notFoundPath)
+            findPath(obj);
     }
 
     private int countDiams() {
@@ -110,13 +126,14 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
             for (int y = 0; y < bdmap.getHeight(); y++) {
                 Position thisTest = new Position(x, y);
 
-                try{
-                //Also add to dangerous-list IF fallingobj above
-                if (!danger.contains(thisTest) &&
-                        bdmap.get(thisTest.moveDirection(Direction.NORTH))
-                                instanceof AbstractBDFallingObject) {
-                    this.danger.add(thisTest);
-                }}catch(IndexOutOfBoundsException e){
+                try {
+                    //Also add to dangerous-list IF fallingobj above
+                    if (!danger.contains(thisTest) &&
+                            bdmap.get(thisTest.moveDirection(Direction.NORTH))
+                                    instanceof AbstractBDFallingObject) {
+                        danger.add(thisTest);
+                    }
+                } catch (IndexOutOfBoundsException e) {
                     //Ignore
                 }
 
@@ -129,7 +146,7 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
                         danger.add(thisTest.moveDirection(Direction.WEST));
                         danger.add(thisTest.moveDirection(Direction.WEST).moveDirection(Direction.NORTH));
                     }
-                }catch(IndexOutOfBoundsException e){
+                } catch (IndexOutOfBoundsException e) {
                     //Ignore
                 }
 
@@ -137,7 +154,6 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
                     //Else if slime, then add
                     if (!danger.contains(thisTest)
                             && bdmap.get(thisTest) instanceof BDSlimeSpawn) {
-                        danger.add(thisTest);
                         IBDObject obj = bdmap.get(x, y - 1);
 
                         try {
@@ -149,7 +165,7 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
                             //Ignore if out of map grab
                         }
                     }
-                }catch(IndexOutOfBoundsException e){
+                } catch (IndexOutOfBoundsException e) {
                     //Ignore
                 }
             }
@@ -165,26 +181,37 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
         if (--wait <= 0) {
 
             //Find dangerous tiles
-            if(danger.size() == 0)
-               markDanger();
+            if (danger.size() == 0)
+                markDanger();
 
             //See if there are instructions
-            if (holder.size() > 0) {
-                Position rPos = holder.get(0);
+            if (gotoPositions.size() > 0) {
+                Position rPos = gotoPositions.get(0);
                 int x = rPos.getX();
                 int y = rPos.getY();
 
-                //TODO: DangerTile Behaviour
                 try {
-                    Position nPos = holder.get(1);
+                    Position nPos = gotoPositions.get(1);
                     if (danger.contains(rPos) && danger.contains(nPos)) {
                         if (owner.get(rPos.getX(), rPos.getY()) instanceof AbstractBDKillingObject
                                 || owner.get(nPos.getX(), nPos.getY()) instanceof AbstractBDKillingObject) {
-                            wait = 4;
+                            wait = 8;
                             return;
                         }
                     }
-                }catch(IndexOutOfBoundsException e){
+                } catch (IndexOutOfBoundsException e) {
+                    //Ignore
+                }
+                try {
+                    if (danger.contains(rPos)) {
+                        if (owner.get(rPos.getX(), rPos.getY()) instanceof AbstractBDKillingObject)
+                            wait = 4;
+                    }
+                    if (danger.contains(rPos.moveDirection(Direction.NORTH)))
+                        if (owner.get(rPos.getX(), rPos.moveDirection(Direction.NORTH).getY())
+                                instanceof AbstractBDKillingObject)
+                            wait = 8;
+                } catch (IndexOutOfBoundsException e) {
                     //Ignore
                 }
 
@@ -199,7 +226,7 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
                     this.askedToGo = Direction.NORTH;
                 }
 
-                this.holder.remove(0);
+                this.gotoPositions.remove(0);
 
                 //Now wait so we don't quantom leap!
                 wait = 4;
@@ -209,7 +236,7 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
             else {
                 if (countDiams() > 0) {
                     findPath(new BDDiamond(owner));
-                }else {
+                } else {
                     findPath(new BDDoor(owner));
                 }
             }

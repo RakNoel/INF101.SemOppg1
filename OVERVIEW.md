@@ -3,19 +3,56 @@
 De fleste ressurser er hentet fra nettet forutenom alle smmålyder som er generert ved hjelp
 av et open-source programm:
 ###Sprites:
-* <a href='http://opengameart.org/content/10-basic-rpg-enemies'>Monster</a> no changes
-* <a href='http://opengameart.org/content/business-of-rage-characeter-beatemup-2d'>Player</a> some resizeing an cut-outs
-* <a href='http://opengameart.org/content/gem-icons'>Diamond</a> no changes
-* <a href='http://opengameart.org/content/metalstone-textures'>Wall</a> heavy resize
-* <a href='http://opengameart.org/content/hand-painted-texture-sandstone'>Sand</a> heavy resize
-* <a href='http://opengameart.org/content/forest-scene-items-animated-slimeexp-orbs'>Rock</a> small resize
-* <a href='http://opengameart.org/content/basic-map-32x32-by-silver-iv'>Door</a> no changes
-* <a href='http://opengameart.org/content/slime-1'>Slime Spawner</a> it's my uppload...
-* <a href='http://opengameart.org/content/slime-1'>Slime Drop</a> same as above...
+* <a href='http://opengameart.org/content/10-basic-rpg-enemies'>Monster</a>
+    * cutout
+    * Stephen "Redshrike" Challener, hosted by OpenGameArt.org
+    * CC-BY 3.0 & OGA-BY 3.0
+    
+* <a href='http://opengameart.org/content/business-of-rage-characeter-beatemup-2d'>Player</a>
+    * some resizeing and cut-outs
+    * Public domain license (CC0)
+    
+* <a href='http://opengameart.org/content/gem-icons'>Diamond</a>
+    * cutout
+    * Clint Bellanger
+    * CC-BY-SA 3.0
+    
+* <a href='http://opengameart.org/content/metalstone-textures'>Wall</a>
+    * heavy resize
+    * CC-BY 3.0 & CC-BY-SA 3.0
+    * Spiney, No other info given
+
+* <a href='http://opengameart.org/content/hand-painted-texture-sandstone'>Sand</a> 
+    * heavy resize
+    * CC-BY 3.0
+    * KIIRA, No other info given
+
+* <a href='http://opengameart.org/content/forest-scene-items-animated-slimeexp-orbs'>Rock</a>
+    * small resize
+    * Public domain (CC0)
+
+* <a href='http://opengameart.org/content/basic-map-32x32-by-silver-iv'>Door</a>
+    * cutout
+    * CC-BY 3.0 & GPL 3.0 & GPL 2.0
+
+* <a href='http://opengameart.org/content/slime-1'>Slime Spawner</a>
+    * it's my uppload...
+    * Public domain (CC0)
+
+* <a href='http://opengameart.org/content/slime-1'>Slime Drop</a>
+    * same as above...
+    * Public domain (CC0)
 
 ###Backgrounds:
-* <a href='http://opengameart.org/content/seamless-cave-background'>Blue cave</a> no changes
-* <a href='http://opengameart.org/content/backgrounds-0'>All Other</a> no changes
+* <a href='http://opengameart.org/content/seamless-cave-background'>Blue cave</a>
+    * no changes
+    * PWL
+    * Public domain (CC0)
+    
+* <a href='http://opengameart.org/content/backgrounds-0'>All Other</a>
+    * no changes
+    * Écrivain
+    * Public domain (CC0)
 
 ###Sound:
 * All sounds generated with dr.petters <a href='http://www.drpetter.se/project_sfxr.html'>project_sfxr!</a>
@@ -58,7 +95,7 @@ forteller oss att dette ikke bare er klassiske klasser:
         * BDSand        Håndterer knuselig sand
         * BDWall        Håndterer Uknuselige vegger
         
-##Beskriv systemet:
+##Beskriv systemet :
 1) Interface danner jo en slags oppskrift på opprettelse av klasser. Men de bidrar også til å sammle de underliggende 
 klassene som IBDObject som jør det mye lettere å returnere dem felles. Se spm2.
 
@@ -80,6 +117,18 @@ overskrive eller bruke som du vil.
 oppdatere BDMap sin gridleser til å plassere ut det nye objektet.
 
 7) Det ligger i stepp metoden til foreldren at en Diamant faller, AbstractBDFallingObject
+
+##getPosition(IBDObject obj):
+1) Vi kommer trolig til å trenge å hente posisjonen til et objekt. Enten for å teste om posisjon er korrekt, eller for
+å vite hvilke objekter vi skal spørre om i get, eller hvilke objekter som ligger rundt oss.
+
+Kunne vi lagret posisjonen til vert enkelt objekt i objektet selv? Trolig ja, men det ville vert lettere å gjøre en
+feil perr objekttype.
+
+2) Trolig er sammenhengen her selve objektene som legges til både i Grid og i hashmap.
+
+3) Nei om possisjonen ble lagret inni objektet er objetet i seg selv kunne vi ikke like enkelt fått posisjonentil andre
+objekter fra innsiden av et objekt, siden vi ikke kunne spørre owner.
         
 ##Forståelse av programmet ETTER programmering:
 Viser seg at de fleste av hypotesene er korrekte, men var vanskelig å sette seg inn i allt.

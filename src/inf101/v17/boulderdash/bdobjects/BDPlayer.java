@@ -49,12 +49,10 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
      */
     private ArrayList<Paint> images;
 
-    private SpriteReader SPR;
-
     public BDPlayer(BDMap owner) {
         super(owner);
         InputStream reAsStr = getClass().getResourceAsStream("../../../../sprites/player/playerSheet.png");
-        this.SPR = new SpriteReader(reAsStr, 35, 35, 2);
+        SpriteReader SPR = new SpriteReader(reAsStr, 35, 35, 2);
 
         images = new ArrayList<>();
         images.add(Color.BLUE);
@@ -66,7 +64,10 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
 
     @Override
     public Paint getColor() {
-        return this.images.get(((stepsTaken / 2) + 1) + (8 * lastDir));
+        if (images.size() > 1)
+            return this.images.get(((stepsTaken / 2) + 1) + (8 * lastDir));
+        else
+            return this.images.get(0);
     }
 
     /**
@@ -80,11 +81,9 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
         switch (key) {
             case LEFT:
                 this.askedToGo = Direction.WEST;
-                this.lastDir = 1;
                 break;
             case RIGHT:
                 this.askedToGo = Direction.EAST;
-                this.lastDir = 0;
                 break;
             case UP:
                 this.askedToGo = Direction.NORTH;
@@ -138,6 +137,11 @@ public class BDPlayer extends AbstractBDMovingObject implements IBDKillable {
                     System.err.println("Can't go there");
                 }
             }
+
+            if (askedToGo == Direction.EAST)
+                this.lastDir = 0;
+            else if (askedToGo == Direction.WEST)
+                this.lastDir = 1;
 
             this.askedToGo = null;
             super.step();

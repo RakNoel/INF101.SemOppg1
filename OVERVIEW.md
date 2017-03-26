@@ -1,4 +1,4 @@
-# Oversikt:
+#Oversikt:
 ##Resurser:
 De fleste ressurser er hentet fra nettet forutenom alle smmålyder som er generert ved hjelp
 av et open-source programm:

@@ -58,8 +58,38 @@ forteller oss att dette ikke bare er klassiske klasser:
         * BDSand        Håndterer knuselig sand
         * BDWall        Håndterer Uknuselige vegger
         
+##Beskriv systemet:
+1) Interface danner jo en slags oppskrift på opprettelse av klasser. Men de bidrar også til å sammle de underliggende 
+klassene som IBDObject som jør det mye lettere å returnere dem felles. Se spm2.
+
+2) Arv spiller en stor rolle i systemet først og fremst for å kunne sende de forsjellige objektene enkelt rundt i 
+systemet og enkelt caste dem. I tillegg til dette så sparer du mye coding da du bare kan hente funksjoner fra foreldre.
+Oppå dette er også step arv bassert.
+
+3) Abstrakte klasser blir en slags mellomting mellom Interface og klasser. Der interface bare er oppskrifter på metoder
+en klasse MÅ inneholde imens en abstrakt klasse skal ekstemdes og kan ha både tomme metoder OG ferdige metoder.
+
+4) Hovedlogikken vil eg si ligger i BDMap da du som oftest ser til denne etter metoder, og det er dette objektet som
+dannes av main og sendes til GUI og holder alle objektene i en Grid
+
+5) De abstrakte klassene gjør det lettere å samle objekter til testene først og fremst. Men du kan også si at de har 
+til funksjon å være et bindeledd mellom klassene og Interface da de "tillbyr" noen ferdige metoder som du kan 
+overskrive eller bruke som du vil.
+
+6) For å legge til et nytt felt vil jeg tro vi må legge til et ny klasse slik som BDSand, implementere logikken og
+oppdatere BDMap sin gridleser til å plassere ut det nye objektet.
+
+7) Det ligger i stepp metoden til foreldren at en Diamant faller, AbstractBDFallingObject
+        
 ##Forståelse av programmet ETTER programmering:
-1) Viser seg at de fleste av hypotesene er korrekte, men var vanskelig å sette seg inn i allt.
+Viser seg at de fleste av hypotesene er korrekte, men var vanskelig å sette seg inn i allt.
 nå har det seg slik at interfacet IBDObject var det viktigste som hånterte ALLE andre objekter
 som skulle brukest i spillet. Men oppgaven har helt klart gitt meg mye bedre innsikt i interface
 og så gir endelig IBD skikkelig mening. I = interface, BD = boulderdash.
+
+##Retting av spørsmål ETTER programmering:
+1) De har også en sammenheng da den ene er for ABSOLUTT ALLE underliggende objekter. Og de andre er for objekter 
+som skal kunne drepest og en for alle bevegelige objekter.
+   
+5) Er også verdt å si at når du kaller på superstep går det opp til forelder og utfører det som står i dens step. 
+Dette brukes bla i spilleren sin step når du endrer denne

@@ -4,6 +4,14 @@ import inf101.v17.boulderdash.maps.BDMap;
 import javafx.scene.paint.Paint;
 
 //Created by RakNoel, 17.03.2017.
+
+/**
+ * A door object that controls teh behavior of the door.
+ *
+ * @author RakNoel
+ * @version 1.0
+ * @since 17.03.2017
+ */
 public class BDDoor extends AbstractBDObject {
 
     private Paint image;
@@ -11,7 +19,7 @@ public class BDDoor extends AbstractBDObject {
     public BDDoor(BDMap owner) {
         super(owner);
 
-        this.image = owner.getSprite(4,0);
+        this.image = owner.getSprite(4, 0);
     }
 
     public Paint getColor() {

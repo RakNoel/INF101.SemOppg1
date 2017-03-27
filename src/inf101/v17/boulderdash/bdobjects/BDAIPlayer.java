@@ -7,15 +7,51 @@ import javafx.scene.input.KeyCode;
 
 import java.util.*;
 
-//Created by RakNoel, 23.03.2017.
+/**
+ * This class is for reading and handling the AI object of the @see BDPlayer
+ *
+ * @author RakNoel
+ * @version 2.0
+ * @since 23.03.2017
+ */
 public class BDAIPlayer extends BDPlayer implements IBDKillable {
 
+    /**
+     * The list of gotoPositions is the final list where all the positions the payer has to move to is added
+     */
     private ArrayList<Position> gotoPositions;
+
+    /**
+     * The danger list is added to keep an eye out for danger and to follow certian
+     * rules while moving in them
+     */
     private ArrayList<Position> danger;
+
+    /**
+     * The usedNodes keep track of which of all the nodes has already been used
+     */
     private ArrayList<Position> usedNodes;
+
+    /**
+     * The processingQueue is a queue or a stack of all the nodes we are able to move to
+     * and which we should therefore check.
+     */
     private Queue<Position> processingQueue;
+
+    /**
+     * The pointerMap keeps track of where we came from if we are able to move to a node,
+     * so that we can retrace our journey from start to finish
+     */
     private HashMap<Position, Position> pointerMap;
-    private int wait = 2;
+
+    /**
+     * A counter of how long the player-object shall wait before its next move
+     */
+    private int wait = 4;
+
+    /**
+     * Boolean of wether this object has found a path or not.
+     */
     private boolean notFoundPath;
 
     public BDAIPlayer(BDMap owner) {
@@ -42,6 +78,9 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
      * gotoPositions ArrayList and turn it backwards.
      *
      * @param obj The objective type you want to find a path to.
+     * @author RakNoel
+     * @version 2.3.1
+     * @since 27.03.2017
      */
     private void findPath(IBDObject obj) {
 
@@ -105,6 +144,11 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
             findPath(obj);
     }
 
+
+    /**
+     * Logical method to count all diamonds that are left on the map
+     * @return int count of diamonds that are left
+     */
     private int countDiams() {
         int dCount = 0;
         BDMap map = super.getMap();
@@ -117,6 +161,9 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
         return dCount;
     }
 
+    /**
+     * Method for adding al the dangerous nodes to the danger-list
+     */
     private void markDanger() {
         danger.clear();
 
@@ -171,11 +218,19 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
             }
     }
 
+    /**
+     * Override the keyPressed method so you kant mess with AI by pressing the arrow keys by accident
+     * @param key
+     */
     @Override
     public void keyPressed(KeyCode key) {
         //NOPE! IGNORE
     }
 
+    /**
+     * The step method that will first find goal, then path, then walk path, avoid danger if needed
+     * and finally finish the map
+     */
     @Override
     public void step() {
         if (--wait <= 0) {
@@ -216,6 +271,7 @@ public class BDAIPlayer extends BDPlayer implements IBDKillable {
                 }
 
 
+                //Move according to instructions
                 if (this.getX() < x) {
                     this.askedToGo = Direction.EAST;
                 } else if (this.getX() > x) {

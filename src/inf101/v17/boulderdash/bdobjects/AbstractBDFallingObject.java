@@ -22,7 +22,6 @@ public abstract class AbstractBDFallingObject extends AbstractBDKillingObject {
      * under a rock.
      */
     protected static final int WAIT = 3;
-
     protected boolean falling = false;
 
     /**
@@ -79,8 +78,14 @@ public abstract class AbstractBDFallingObject extends AbstractBDKillingObject {
         }
     }
 
-    @Override
-    public void step() {
+    /**
+     * This method is for implementing the logic of the slipping of fancy rocks and diamonds
+     * so that the object slips either left or right if it is possible to fall further and it
+     * is on top of another object that behaves the same way.
+     *
+     * @author RakNoel
+     */
+    public void slipp(){
         try {
             IBDObject under = owner.get(this.getX(), this.getY() - 1);
 
@@ -115,14 +120,23 @@ public abstract class AbstractBDFallingObject extends AbstractBDKillingObject {
                     this.prepareMoveTo(Direction.EAST);
                 }
             }
-        } catch (IllegalMoveException e) {
-            //Ignore
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IllegalMoveException | IndexOutOfBoundsException e) {
             //Ignore
         }
+    }
 
-        // (Try to) fall if possible
+    /**
+     * This is the default step method
+     */
+    @Override
+    public void step() {
+        //Tries to slipp if slippy object under
+        slipp();
+
+        //Tries to fall if empty under
         fall();
+
+        //Parent step
         super.step();
     }
 

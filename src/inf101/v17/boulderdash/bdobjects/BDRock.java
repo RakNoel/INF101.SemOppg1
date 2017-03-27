@@ -4,27 +4,33 @@ package inf101.v17.boulderdash.bdobjects;
 import inf101.v17.boulderdash.Direction;
 import inf101.v17.boulderdash.IllegalMoveException;
 import inf101.v17.boulderdash.maps.BDMap;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 
-import java.io.InputStream;
-
-//Created by RakNoel, 15.03.2017.
+/**
+ * Class to controll the behaviour of the rock objects
+ *
+ * @author RakNoel
+ * @version 1.0
+ * @since 15.03.2017
+ */
 public class BDRock extends AbstractBDFallingObject {
 
     private Paint image;
 
     public BDRock(BDMap owner) {
         super(owner);
-        this.image = owner.getSprite(2,0);
+        this.image = owner.getSprite(2, 0);
     }
 
     public Paint getColor() {
         return this.image;
     }
 
+    /**
+     * The logical method that allows th player to push a rock either left or right.
+     * @param dir The direction you want to move the rock
+     * @return logical value weather the rock was able to move or not
+     */
     public boolean push(Direction dir) {
         try {
             if (dir.equals(Direction.WEST)) {
@@ -41,7 +47,7 @@ public class BDRock extends AbstractBDFallingObject {
                     this.step();
                     return true;
                 }
-            }else{
+            } else {
                 throw new IllegalMoveException("Can't push rock in that direction");
             }
         } catch (IllegalMoveException e) {

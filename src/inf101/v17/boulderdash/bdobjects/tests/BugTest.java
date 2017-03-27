@@ -7,21 +7,23 @@ import inf101.v17.boulderdash.bdobjects.IBDObject;
 import inf101.v17.boulderdash.maps.BDMap;
 import inf101.v17.datastructures.IGrid;
 import inf101.v17.datastructures.MyGrid;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test-class to test the BDBug objects behave the way they are supposed to on map-updates
+ *
+ * @author Anya
+ * @version 1.0
+ * @since 27.03.2017
+ */
 public class BugTest {
 
     private BDMap map;
 
-    @Before
-    public void setup() {
-    }
-
     /**
-     * Test to see if a un blocked monster does move
+     * Test to see if a unblocked monster does move at all
      */
     @Test
     public void bugMoves() {
@@ -113,7 +115,7 @@ public class BugTest {
                         fail("Monster not in correct spot, found in: " + map.getPosition(bug));
                     else
                         System.out.println("passed");
-                        continue Main;
+                    continue Main;
                 }
             }
 
@@ -121,8 +123,8 @@ public class BugTest {
     }
 
     /**
-     * Test to test if bug kills player
-     * */
+     * Test to test if bug kills player if walked over
+     */
     @Test
     public void playerKilledByBug() {
         IGrid<Character> grid = new MyGrid<>(3, 3, ' ');
@@ -150,8 +152,8 @@ public class BugTest {
     }
 
     /**
-     * Test to test if bug kills player if blocked by wall
-     * */
+     * Test to see if bug is unable to kill the player if blocked by wall
+     */
     @Test
     public void playerNotKilledWall() {
         IGrid<Character> grid = new MyGrid<>(3, 3, ' ');

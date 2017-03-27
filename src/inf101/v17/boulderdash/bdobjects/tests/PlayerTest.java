@@ -12,10 +12,20 @@ import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-//Created by RakNoel, 16.03.2017.
+/**
+ * Test to see if the player is able to move in the right/expected manner
+ *
+ * @author RakNoel
+ * @version 1.0
+ * @since 16.03.2017
+ */
+
 public class PlayerTest {
     private BDMap map;
 
+    /**
+     * This method tests if the player is able to move in all directions if the Keycode is sent
+     */
     @Test
     public void basicPlayerMovement() {
         IGrid<Character> grid = new MyGrid<>(9, 9, ' ');
@@ -44,6 +54,9 @@ public class PlayerTest {
         assertTrue(map.get(1, 0) instanceof BDPlayer);
     }
 
+    /**
+     * Tests to see if the player is unable to leave the grid
+     */
     @Test
     public void playerCantLeaveGrid() {
         IGrid<Character> grid = new MyGrid<>(9, 9, ' ');
@@ -60,6 +73,9 @@ public class PlayerTest {
         assertTrue(map.get(8, 0) instanceof BDPlayer);
     }
 
+    /**
+     * Test to check that the player is able to move trough and replaced BDSand with BDEmpty
+     */
     @Test
     public void playerDestroysSand() {
         IGrid<Character> grid = new MyGrid<>(9, 9, '#');
@@ -79,6 +95,9 @@ public class PlayerTest {
         assertTrue(map.get(4, 0) instanceof BDPlayer);
     }
 
+    /**
+     * Test to see if the player moves the rock if possible
+     */
     @Test
     public void playerMovesRock() {
         IGrid<Character> grid = new MyGrid<>(9, 9, ' ');
@@ -101,12 +120,15 @@ public class PlayerTest {
         assertTrue(map.get(4, 0) instanceof BDRock);
     }
 
+    /**
+     * Test to check if the player is unable to move trough a rock if it is blocked by other object, or unable to
+     * walk trough walls
+     */
     @Test
     public void playerCantMoveTrough() {
         playerCantMoveTrough('*');
         playerCantMoveTrough('r');
     }
-
     private void playerCantMoveTrough(char blockage) {
         IGrid<Character> grid = new MyGrid<>(9, 9, blockage);
         grid.set(3, 3, 'p');
@@ -131,6 +153,9 @@ public class PlayerTest {
         assertTrue(map.get(3, 3) instanceof BDPlayer);
     }
 
+    /**
+     * Tests if the players diamond-counter rises and if the diamonds disappears if player walks on them.
+     */
     @Test
     public void playerPicksUpDiamond() {
         IGrid<Character> grid = new MyGrid<>(9, 9, 'd');

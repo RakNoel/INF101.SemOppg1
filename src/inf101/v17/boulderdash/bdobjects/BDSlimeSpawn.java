@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 //Created by RakNoel, 22.03.2017.
+
+/**
+ * Object class to handle the behavior of the slime objects.
+ */
 public class BDSlimeSpawn extends AbstractBDKillingObject {
 
     private ArrayList<Paint> image;

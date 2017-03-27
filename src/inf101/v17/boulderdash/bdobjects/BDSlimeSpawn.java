@@ -10,12 +10,31 @@ import java.util.Random;
 
 /**
  * Object class to handle the behavior of the slime objects.
+ *
+ * @author RakNoel
+ * @version 1.0
+ * @since 22.03.2017
  */
 public class BDSlimeSpawn extends AbstractBDKillingObject {
 
+    /**
+     * Arraylist to hold all the sprites of this object
+     */
     private ArrayList<Paint> image;
+
+    /**
+     * A counter to know which sprite to return
+     */
     private int counter;
+
+    /**
+     * A counter of the waitingtime til next drop-spawn starts
+     */
     private int waitingTime;
+
+    /**
+     * Random
+     */
     private Random rnd;
 
     public BDSlimeSpawn(BDMap owner) {
@@ -25,6 +44,7 @@ public class BDSlimeSpawn extends AbstractBDKillingObject {
         this.counter = 0;
         this.waitingTime = rnd.nextInt(24);
 
+        //Read all sprites
         for (int i = 6; i < 12; i++)
             this.image.add(owner.getSprite(i));
     }

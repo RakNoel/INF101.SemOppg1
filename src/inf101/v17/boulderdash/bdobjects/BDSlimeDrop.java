@@ -6,7 +6,15 @@ import inf101.v17.boulderdash.maps.BDMap;
 import javafx.scene.paint.Paint;
 
 //Created by RakNoel, 22.03.2017.
-public class BDSlimeDrop extends AbstractBDFallingObject implements IBDKillable{
+
+/**
+ * Object class to handle the slipedrop that falls from the slimedpawner.
+ *
+ * @author RakNoel
+ * @version 1.0
+ * @since 22.03.2017
+ */
+public class BDSlimeDrop extends AbstractBDFallingObject implements IBDKillable {
 
     private Paint image;
 
@@ -20,9 +28,11 @@ public class BDSlimeDrop extends AbstractBDFallingObject implements IBDKillable{
         return this.image;
     }
 
+    /**
+     * Needs to Override due to the slimedrop de-spawning when i hits ground
+     */
     @Override
     public void step() {
-        // (Try to) fall if possible
         Position myPos = this.owner.getPosition(this);
 
         try {
@@ -46,7 +56,7 @@ public class BDSlimeDrop extends AbstractBDFallingObject implements IBDKillable{
     }
 
     @Override
-    public void kill(){
+    public void kill() {
         owner.set(this.getX(), this.getY(), new BDEmpty(owner));
     }
 }

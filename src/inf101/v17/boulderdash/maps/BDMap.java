@@ -22,10 +22,14 @@ import java.util.*;
  */
 public class BDMap {
 
-    protected final int spriteWidth = 35;
-    protected final int spriteHeight = 35;
-    protected final int spriteBuffer = 2;
-    protected final int totalSprites = 41;
+    /**
+     * A bunch of final integers that hold info about my sprites
+     */
+    private final int
+            spriteWidth = 35,
+            spriteHeight = 35,
+            spriteBuffer = 2,
+            totalSprites = 41;
 
     /**
      * Reads and stores sprites for the textures.
@@ -33,7 +37,14 @@ public class BDMap {
     protected SpriteReader SpriteReader;
     protected ArrayList<Paint> sprites;
 
+    /**
+     * Integer that holds the point of the player for this map on finish
+     */
     protected int playerPoints = 0;
+
+    /**
+     * Boolean to see if map is finished
+     */
     protected boolean finished = false;
 
     /**
@@ -61,6 +72,10 @@ public class BDMap {
      * frequently.
      */
     protected BDPlayer player;
+
+    /**
+     * A separate reference to the AI-player if the Playerposition is null
+     */
     protected BDPlayer AI;
 
     /**
@@ -91,6 +106,10 @@ public class BDMap {
         this.seconds = 8 * Math.min(800, this.getHeight() * this.getWidth());
     }
 
+    /**
+     * methos to add a background texture for this map
+     * @param background is a string of the filepath to the background
+     */
     public void addBackground(String background) {
         if (background != null && !background.equals(""))
             this.background = background;
@@ -256,6 +275,9 @@ public class BDMap {
         return grid.getHeight();
     }
 
+    /**
+     * @return the point the player got
+     */
     public int getPlayerPoints() {
         return this.playerPoints;
     }
@@ -326,6 +348,9 @@ public class BDMap {
         return grid.getWidth();
     }
 
+    /**
+     * @return if the map is finished
+     */
     public boolean getFinished() {
         return this.finished;
     }
@@ -356,15 +381,27 @@ public class BDMap {
         hashMap.put(element, new Position(x, y));
     }
 
+    /**
+     * The logical step method for this map!
+     */
     public void step() {
         for (int x = 0; x < this.getWidth(); x++)
             for (int y = 0; y < this.getHeight(); y++)
                 this.get(x, y).step();
 
+        //Update seconds counter so that we change ingame timer
         if (this.seconds > 1)
             this.seconds--;
     }
 
+    /**
+     * Method to finish map when player walks on door
+     *
+     * @see BDPlayer
+     * @see BDDoor
+     *
+     * also calculates player points
+     */
     public void finish() {
         int monsterLeft = 0,
                 diams = this.getPlayer().numberOfDiamonds(),
@@ -387,6 +424,9 @@ public class BDMap {
 
     }
 
+    /**
+     * @return the Paintobject containing the background picture
+     */
     public Paint getBackground() {
         try {
             InputStream resourceAsStream = getClass().getResourceAsStream(this.background);
@@ -396,10 +436,21 @@ public class BDMap {
         }
     }
 
+    /**
+     * Returns the sprite that is asked for
+     * @param x coordinate x
+     * @param y coordinate y
+     * @return a Paint object of the sprite
+     */
     public Paint getSprite(int x, int y) {
         return this.sprites.get((y * 7) + x);
     }
 
+    /**
+     * Alternative getsprite
+     * @param x position x as if all sprites are read into ArrayList
+     * @return a Paint object of the sprite
+     */
     public Paint getSprite(int x) {
         return this.sprites.get(x);
     }

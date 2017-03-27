@@ -61,21 +61,22 @@ public class BDMap {
      * frequently.
      */
     protected BDPlayer player;
+    protected BDPlayer AI;
 
     /**
      * Main constructor of this class.
      *
-     * @param map    A grid of characters, where each character represents a type
-     *               of {@link IBDObject}: ' ' - {@link #BDEmpty}, '*' -
-     *               {@link BDWall}, '#' - {@link #BDSand}, 'd' -
-     *               {@link #BDDiamond}, 'b' - {@link BDBug}, 'r' -
-     *               {@link #BDRock}, 'p' - {@link #BDPlayer}
+     * @param map A grid of characters, where each character represents a type
+     *            of {@link IBDObject}: ' ' - {@link #BDEmpty}, '*' -
+     *            {@link BDWall}, '#' - {@link #BDSand}, 'd' -
+     *            {@link #BDDiamond}, 'b' - {@link BDBug}, 'r' -
+     *            {@link #BDRock}, 'p' - {@link #BDPlayer}
      */
     public BDMap(IGrid<Character> map) {
         grid = new MyGrid<IBDObject>(map.getWidth(), map.getHeight(), null);
         hashMap = new HashMap<IBDObject, Position>();
         this.player = new BDPlayer(this);
-
+        this.AI = new BDAIPlayer(this);
 
         this.sprites = new ArrayList<Paint>(totalSprites);
         InputStream reAsStr = getClass().getResourceAsStream("../../../../sprites/textures/textures.png");
@@ -210,7 +211,7 @@ public class BDMap {
             case 's':
                 return new BDSlimeDrop(this);
             case 'A':
-                return new BDAIPlayer(this);
+                return this.AI;
             case 'b':
                 try {
                     return new BDBug(this, new Position(x, y), 1, 10);
@@ -300,7 +301,10 @@ public class BDMap {
      * @return
      */
     public BDPlayer getPlayer() {
-        return player;
+        if (this.player.getPosition() == null)
+            return this.AI;
+        else
+            return player;
     }
 
     /**
@@ -363,7 +367,7 @@ public class BDMap {
 
     public void finish() {
         int monsterLeft = 0,
-                diams = this.player.numberOfDiamonds(),
+                diams = this.getPlayer().numberOfDiamonds(),
                 timeLeft = this.seconds;
 
         for (int x = 0; x < this.getWidth(); x++)
